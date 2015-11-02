@@ -1,0 +1,160 @@
+input[type="radio"],
+input[type="checkbox"]
+{
+    margin:0.1em 0.25em 0 0;
+}
+
+
+.show-on-task-loaded
+{
+    display:none !important;
+}
+
+
+.question
+{
+    margin:0 0 1.5em 0;
+}
+    .question > header
+    {
+        /*margin:0 0 0.25em 0;*/
+        font:400 1.85em Patua One;
+        margin:0.1em 0;
+    }
+
+.btn
+{
+    font-family:Montserrat;
+    text-transform:uppercase;
+    border-radius:2px;
+}
+.btn-link
+{
+    padding:0;
+}
+.answer
+{
+    margin-top:1em;
+}
+
+.help-toggle
+{
+    margin:0;
+    padding:0;
+    cursor:help;
+}
+
+
+.illustration-img
+{
+    border-radius:2px 2px 0 0;
+    width:100%;
+    height:7em;
+    cursor:zoom-in;
+}
+.illustration-label
+{
+    border-radius:0 0 2px 2px;
+    text-transform:uppercase;
+    width:100%;
+    cursor:pointer;
+}
+.illustration-input
+{
+    margin:0.25em 0 0.75em 0;
+}
+
+input + .other-input
+{
+    visibility:hidden;
+    border:1px solid #BBB;
+    margin-left:0.45em;
+    padding:0 0.2em;
+    border-radius:1px;
+}
+input:checked + .other-input
+{
+    visibility:visible;
+}
+
+#content-main
+{
+    font:400 1em Martel Sans, Open Sans, Lato;
+}
+
+#content
+{
+}
+    #content-header
+    {
+        padding:1em 0;
+        /*text-align:center;*/
+    }
+        #questionnaire-topic
+        {
+            font:900 2.6em Montserrat, Open Sans !important;
+
+            text-transform:uppercase;
+            /*margin:0;*/
+            /*background:red;*/
+        }
+
+
+#project-contribution-reminder > .header
+{
+    font:400 0.8em Montserrat !important;
+    color:#444;
+    text-transform:uppercase;
+}
+#project-task-progress
+{
+    font:400 0.8em Montserrat;
+}
+    #project-task-count
+    {
+        font-size:3em;
+    }
+
+
+
+#questionnaire-section
+{
+}
+    #questionnaire-rewind,
+    #questionnaire-no-photo
+    {
+        margin:1em 0;
+        color:#FFF !important;
+    }
+    #questionnaire-rewind:disabled,
+    #questionnaire-no-photo:disabled
+    {
+        display:none !important;
+    }
+#tutorial-message-box
+{
+    padding:1em;
+    color:#FFF;
+    background:#C00000;
+    word-wrap:break-word;
+    border-radius:2px;
+}
+#tutorial-message-box.expected
+{
+    background:#005000;
+}
+    .show-on-expected,
+    #tutorial-message-box.expected > .hide-on-expected
+    {
+        display:none;
+    }
+    #tutorial-message-box.expected > .show-on-expected
+    {
+        display:inline;
+    }
+    #tutorial-failure-message,
+    #tutorial-success-message
+    {
+        margin:0;
+        padding:0;
+    }

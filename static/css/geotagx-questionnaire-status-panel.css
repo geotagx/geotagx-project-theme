@@ -1,0 +1,95 @@
+#questionnaire-status-panel
+{
+	font-family:Lato, sans;
+	color:#777;
+	background:#EEE;
+	overflow:hidden;
+}
+	#questionnaire-busy-icon
+	{
+		color:#777;
+	}
+	.show-on-analysis-complete
+	{
+		display:none;
+	}
+	#questionnaire-status-panel.analysis-complete .show-on-analysis-complete
+	{
+		display:block;
+	}
+	#questionnaire-status-panel > header,
+	#questionnaire-status-panel > main
+	{
+	}
+	#questionnaire-status-panel > header
+	{
+		font:400 0.95em Montserrat, sans;
+		padding:1em 1em 0.5em 1em;
+	}
+	#questionnaire-status-panel > main
+	{
+	}
+		#questionnaire-status-panel > main > div
+		{
+			padding:0.5em 1em 0.5em 1em;
+		}
+		#submit-analysis > .show-on-busy,
+		#submit-analysis.busy > .hide-on-busy
+		{
+			display:none;
+		}
+		#submit-analysis.busy > .show-on-busy
+		{
+			display:inline;
+		}
+		#submit-message-failure,
+		#submit-message-success
+		{
+			margin:0.5em 0;
+			font-style:italic;
+			text-align:center;
+			transition:all 0.2s ease-in;
+			-o-transition:all 0.2s ease-in;
+			-ms-transition:all 0.2s ease-in;
+			-moz-transition:all 0.2s ease-in;
+			-webkit-transition:all 0.2s ease-in;
+		}
+		#submit-message-failure
+		{
+			font-size:0.8em;
+			color:red;
+		}
+		#submit-message-success
+		{
+			font-size:0.9em;
+			color:#080;
+		}
+		#take-another-tutorial
+		{
+			color:#00CCCC;
+			cursor:pointer;
+		}
+		a.btn
+		{
+			margin:0.75em 0 0 0;
+			font-family:Montserrat;
+		}
+	#questionnaire-status-panel > footer
+	{
+		padding:0.5em 0 0 0;
+	}
+		#questionnaire-progress
+		{
+			background:#DDD;
+		}
+			#questionnaire-progress-bar
+			{
+				width:0;
+				height:0.3em;
+				background:#0CC;
+				transition:all 0.2s ease-in;
+	            -o-transition:all 0.2s ease-in;
+	            -ms-transition:all 0.2s ease-in;
+	            -moz-transition:all 0.2s ease-in;
+	            -webkit-transition:all 0.2s ease-in;
+			}
