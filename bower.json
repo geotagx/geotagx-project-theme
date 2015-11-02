@@ -1,0 +1,29 @@
+{
+  "name": "geotagx-project-theme",
+  "version": "0.0.0",
+  "homepage": "https://github.com/geotagx/geotagx-project-theme",
+  "authors": [
+    "UNITAR",
+    "Jeremy Othieno"
+  ],
+  "description": "The default theme for GeoTag-X projects.",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "geotagx",
+    "project",
+    "theme",
+    "default"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": "^1.*",
+    "qunit": "~1.20.0"
+  }
+}
