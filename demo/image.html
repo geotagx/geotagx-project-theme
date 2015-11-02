@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image prototype</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/geotagx-questionnaire-image.css">
+</head>
+<body>
+    <section id="image-section" class="col-xs-6 show-on-task-loaded">
+        <div id="image-container" class="row">
+            <div id="image"></div>
+            <button id="image-zoom-in"      class="image-control btn btn-primary btn-xs"><i class="fa fa-search-plus"></i></button>
+            <button id="image-zoom-out"     class="image-control btn btn-primary btn-xs"><i class="fa fa-search-minus"></i></button>
+            <button id="image-rotate-left"  class="image-control btn btn-primary btn-xs"><i class="fa fa-rotate-left"></i></button>
+            <button id="image-rotate-right" class="image-control btn btn-primary btn-xs"><i class="fa fa-rotate-right"></i></button>
+        </div>
+        <div class="row">
+            <center>
+                <div id="image-source-container">You can learn more about this photo by visiting its <a id="image-source" rel="nofollow" target="_blank">source</a>.</div>
+                <div id="image-protip"><span class="label label-info">PROTIP</span>&nbsp;In addition to <a class="btn btn-primary btn-xs disabled"><i class="fa fa-search-plus"></i></a> and <a class="btn btn-primary btn-xs disabled"><i class="fa fa-search-minus"></i></a> you can use the mouse wheel to zoom in and out.</div>
+            </center>
+        </div>
+    </section>
+    <button id="change-image">Load another image</button>
+    <script src="vendor/jquery.js"></script>
+    <script src="../static/js/geotagx-image.js"></script>
+    <script>
+    $(document).ready(function(){
+        var images = [
+            ["http://isiforums.net/f/showthread.php/723-Horizon-Line-You-re-doing-it-wrong/page3", "http://img.photobucket.com/albums/v504/F12Bwth2/Calibration/CustomPattern.png"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=344&type=pic", "http://www.marsnjak.com/sergej/yemen/highres/344%20-%20Shabwah.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=344&type=pic", "http://www.marsnjak.com/sergej/yemen/highres/344%20-%20Shabwah.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=344&type=pic", "http://www.marsnjak.com/sergej/yemen/highres/344%20-%20Shabwah.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=302&type=pic","http://www.marsnjak.com/sergej/yemen/highres/302%20-%20Tarim%20-%20Palace.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=380&type=pic","http://www.marsnjak.com/sergej/yemen/highres/380%20-%20Ma'rib%20-%20The%20dam%20was%20somewhere%20here.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=445&type=pic","http://www.marsnjak.com/sergej/yemen/highres/445%20-%20Wadi%20Dhar%20-%20Dar%20al%20Hajjar.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=482&type=pic","http://www.marsnjak.com/sergej/yemen/highres/482%20-%20Near%20Kawkaban.jpg"],
+            ["http://www.marsnjak.com/sergej/?type=pic&menu=yemen&pic=126&zoom=1","http://www.marsnjak.com/sergej/yemen/highres/126%20-%20Bi'r%20'Ali%20-%20Husn%20al%20Ghurab%20-%20Old%20Sabean%20city%20of%20Qana.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=52&type=pic","http://www.marsnjak.com/sergej/yemen/highres/052%20-%20Near%20Rida'.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=306&type=pic","http://www.marsnjak.com/sergej/yemen/highres/306%20-%20Tarim%20-%20Palace.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=345&type=pic","http://www.marsnjak.com/sergej/yemen/highres/345%20-%20Shabwah.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=270&type=pic","http://www.marsnjak.com/sergej/yemen/highres/270%20-%20Wadi%20Doan%20-%20Mashat%20Ali%20-%20Tomb.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=678&type=pic","http://www.marsnjak.com/sergej/yemen/highres/678%20-%20Manakhah.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=282&type=pic","http://www.marsnjak.com/sergej/yemen/highres/282%20-%20Wadi%20Hadramawt%20-%20Shibam%20-%20Mosque.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=374&type=pic","http://www.marsnjak.com/sergej/yemen/highres/374%20-%20Ma'rib%20-%20Ruins%20of%20Arsh%20Bilqish%20temple.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=5&type=pic","http://www.marsnjak.com/sergej/yemen/highres/005%20-%20Near%20San'a'.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=387&type=pic","http://www.marsnjak.com/sergej/yemen/highres/387%20-%20Ruins%20of%20old%20Ma'rib.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=454&type=pic","http://www.marsnjak.com/sergej/yemen/highres/454%20-%20Wadi%20Dhar%20-%20Dar%20al%20Hajjar.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=269&type=pic","http://www.marsnjak.com/sergej/yemen/highres/269%20-%20Wadi%20Doan%20-%20Mashat%20Ali%20-%20Tomb.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=347&type=pic","http://www.marsnjak.com/sergej/yemen/highres/347%20-%20Shabwah.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=301&type=pic","http://www.marsnjak.com/sergej/yemen/highres/301%20-%20Tarim.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=399&type=pic","http://www.marsnjak.com/sergej/yemen/highres/399%20-%20Old%20San'a'.jpg"],
+            ["http://www.marsnjak.com/sergej/?menu=yemen&zoom=1&pic=303&type=pic","http://www.marsnjak.com/sergej/yemen/highres/303%20-%20Tarim%20-%20Palace.jpg"],
+        ];
+        var currentImageIndex = 0;
+
+        var image = new geotagx.Image("image");
+        if (image)
+            setImage(currentImageIndex);
+
+        $("#image").on("zoom", function(e, delta){ console.log("Zoomed", delta); });
+
+        $("#image-zoom-in").on("click", function(){ image.zoomIn(); });
+        $("#image-zoom-out").on("click", function(){ image.zoomOut(); });
+        $("#image-rotate-left").on("click", function(){ image.rotateLeft(); });
+        $("#image-rotate-right").on("click", function(){ image.rotateRight(); });
+        $("#change-image").on("click", function(){
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            setImage(currentImageIndex);
+        });
+
+        function setImage(index){
+            var imageInfo = images[index];
+            if (imageInfo){
+                var source = imageInfo[0];
+                var url = imageInfo[1];
+                image.setSource(url);
+                $("#image-source").attr("href", source);
+            }
+        }
+    });
+    </script>
+</body>
+<html>

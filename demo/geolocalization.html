@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Geolocalization prototype</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../static/vendor/ol/ol.css">
+	<link rel="stylesheet" href="../static/css/geotagx-ol.css">
+</head>
+<body>
+	<div id="ol-map" class="geotagx-ol-map" style="width:100%; height:400px"></div>
+	<div>
+		<button id="get-polygon">Print plotted polygon coordinates</button>
+		<p id="polygon"></p>
+	</div>
+	<div class="geotagx-ol-help">
+		<h2>How to geolocalize an image</h2>
+		<h4>Locating a region</h4>
+		<p>
+			If you are unsure of the region where the photo was taken, we recommended perusing the
+			source article for any hints. If you do find the name of the location where the photo
+			was taken, you can use <button disabled class="btn btn-primary" style="padding:0 0.15em"><i class="fa fa-fw fa-search"></i></button>
+			(the Search tool) to quickly zoom in on it.
+		</p>
+		<h4>Changing the view mode</h4>
+		<p>
+			By default, you are presented with a map view that may not be useful in cases where you would
+			like to have a clearer view of the terrain. In these instances, it is possible to switch to either satellite
+			imagery with <button disabled class="btn btn-primary" style="padding:0 0.35em"><strong>S</strong></button> (the Satellite Imagery toggle)
+			or aerial imagery with <button disabled class="btn btn-primary" style="padding:0 0.35em"><strong>A</strong></button>
+			(the Aerial Imagery toggle). The downside to both satellite and aerial views is that imagery data may not always
+			be available. While this is particularly apparent for satellite imagery, in almost all cases, aerial imagery
+			can be used as a complement. In other words, try switching to the aerial view when no satellite imagery is available.<br>
+			To switch back to the map view, you can use <button disabled class="btn btn-primary" style="padding:0 0.35em"><strong>M</strong></button>
+			(the Map View toggle).
+		</p>
+		<h4>Selecting an area of interest</h4>
+		<p>
+			Once you have located an area you would like to geolocalize, the goal is to draw an outline around it
+			as accurately as possible. To begin, start by clicking a point on the map to toggle draw mode.
+			This mode will allow you to draw a polygon around your area of interest. To finish drawing, you can
+			either double-click the last point of the outline, or click its first point to close the loop.<br><br>
+			Please remember that only one outline can be drawn at a time. If the process is restarted, any
+			existing polygons will be deleted.<br>You can also remove any drawings by
+			using <button disabled class="btn btn-primary" style="padding:0 0.15em"><i class="fa fa-fw fa-eraser"></i></button> (the Eraser tool).
+		</p>
+		<h4>Full-screen mode</h4>
+		<p>
+			If your viewport is too small, you can switch to full-screen with <button disabled class="btn btn-primary" style="padding:0 0.25em"><big>&#8596;</big></button>
+			(the Full-screen toggle). This tool is not available if your browser does not support full-screen mode!
+		</p>
+	</div>
+	<script src="vendor/jquery.js"></script>
+	<script src="../static/vendor/ol/ol.js"></script>
+	<script src="../static/js/geotagx-ol.js"></script>
+	<script>
+	$(document).ready(function(){
+		var map = geotagx.ol.createMap("ol-map", "Geneva");
+
+		$("#get-polygon").on("click", function(){
+			var coordinates = map.getSelection();
+			$("#polygon").text(JSON.stringify(coordinates));
+		});
+	});
+	</script>
+</body>
+<html>
