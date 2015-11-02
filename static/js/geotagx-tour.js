@@ -88,6 +88,7 @@
 	 * the tour modals should still anchor correctly.
 	 */
 	function syncStepElement(){
+		/*jshint validthis:true*/
 		var question = ".question[data-id='" + geotagx.questionnaire.getCurrentQuestion() + "']";
 		var element = this.element;
 		if (question !== element.substring(1, question.length)){

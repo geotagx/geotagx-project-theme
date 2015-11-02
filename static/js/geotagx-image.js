@@ -236,6 +236,7 @@
      * A handler that is called when the user scrolls over the image.
      */
     function onWheel(e){
+        /*jshint validthis:true*/
         e.preventDefault();
 
         var delta = e.deltaY ? e.deltaY : (e.wheelDelta ? -e.wheelDelta : 0);
@@ -249,6 +250,7 @@
 
         // When the image is rotated, the x and y coordinates need to be transformed.
         switch (this.image.rotation){
+            /*jshint shadow:true*/
             case 90:
                 var a = x;
                 x = (y / rect.height) * rect.width;
@@ -261,7 +263,7 @@
             case 270:
                 var a = x;
                 x = rect.width - (y / rect.height) * rect.width;
-                y =  ((a / rect.width) * rect.height);
+                y = ((a / rect.width) * rect.height);
                 break;
             default:
                 break;
@@ -272,6 +274,7 @@
      * A handler that is called when the user clicks on an image.
      */
     function onMouseDown(e){
+        /*jshint validthis:true*/
         e.preventDefault();
 
         var image = this.image;
@@ -323,9 +326,9 @@
 
         var frame = context.frame;
         var image = context.image;
-        var ratio = angle === 90 || angle === 270
-                  ? 1 / image.aspectRatio
-                  : image.aspectRatio;
+        var ratio = angle === 90 || angle === 270 ?
+                    1 / image.aspectRatio :
+                    image.aspectRatio;
 
         // Calculate the rotated image's dimensions.
         var fw = frame.offsetWidth;

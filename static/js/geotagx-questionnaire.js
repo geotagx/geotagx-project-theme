@@ -33,7 +33,7 @@
 	 * Initializes the answers object.
 	 */
 	function initializeAnswers(){
-		answers_["photoVisible"] = true;
+		answers_.photoVisible = true;
 
 		// The object property names are stored as a data attribute in each
 		// element with the 'answer' class.
@@ -132,8 +132,8 @@
 	/**
 	 *
 	 */
-	function onQuestionAnswered(){
-		var $submitter = $(this);
+	function onQuestionAnswered(e){
+		var $submitter = $(e.target);
 		var key = getCurrentQuestionKey();
 		var answer = parseAnswer(getQuestionType(key), $submitter);
 
@@ -300,9 +300,9 @@
 	 * @param key the current question's key.
 	 * @param answer the current question's answer.
 	 */
-	function showNextQuestion(key, answer){
+	var showNextQuestion = function(key, answer){
 		showQuestion(getNextQuestionKey(key, answer));
-	}
+	};
 	/**
 	 * Hides the question with the specified key.
 	 */
@@ -352,6 +352,7 @@
 		var answer = $submitter.attr("value");
 		if (answer === "Done"){
 			switch (questionType){
+				/*jshint shadow:true*/
 				case "dropdown-list":
 					// Find the selected item that isn't disabled. Remember that
 					// the prompt is selected by default, but disabled to prevent
@@ -374,9 +375,9 @@
 					if (other.length > 0)
 						other = "Other[" + other + "]";
 					answer = other;
-					return answer
-					     ? ($input.length === 0 ? answer : answer + ", " + itemValuesToString($input))
-					     : ($input.length === 0 ? "None" : itemValuesToString($input));
+					return answer ?
+			               ($input.length === 0 ? answer : answer + ", " + itemValuesToString($input)) :
+					       ($input.length === 0 ? "None" : itemValuesToString($input));
 				case "geotagging":
 					var coordinates = null;
 					var targetId = $submitter.data("target-id");
@@ -395,10 +396,10 @@
 					return numberString ? parseFloat(numberString) : null;
 				case "datetime":
 					var datetime = $("#" + $submitter.data("input-id")).data("DateTimePicker").date();
-					return datetime != null ? datetime.format("X") : null; // Return date and time as a Unix timestamp.
+					return datetime !== null ? datetime.format("X") : null; // Return date and time as a Unix timestamp.
 				case "date":
 					var date = $("#" + $submitter.data("input-id")).data("DateTimePicker").date();
-					return date != null ? date.format("YYYY-MM-DD") : null;
+					return date !== null ? date.format("YYYY-MM-DD") : null;
 				default:
 					console.log("[geotagx::questionnaire::parseAnswer] Error! Unknown question type '" + questionType + "'.");
 					return null;
@@ -415,7 +416,7 @@
 	function saveAnswer(key, answer){
 		if (isValidQuestionKey(key) && key !== "end")
 			answers_[key] = $.type(answer) === "undefined" ? null : answer;
-	};
+	}
 	/**
 	 * Returns true if a question with the specified key exists, false otherwise.
 	 */

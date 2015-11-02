@@ -25,7 +25,7 @@
 		$(".hide-on-task-loaded").hide();
 		$("#questionnaire-rewind").on("click.tutorial", hideNotification);
 		$("#tutorial-next-question").on("click.tutorial", function(){
-			hideNotification(function(){ geotagx.questionnaire.showQuestion(nextQuestionKey_) });
+			hideNotification(function(){ geotagx.questionnaire.showQuestion(nextQuestionKey_); });
 		});
 		$("#take-another-tutorial").on("click.tutorial", function(){
 			currentTutorial_ = (currentTutorial_ + 1) % numberOfTutorials_;
@@ -137,7 +137,7 @@
 
 			if (onNotificationHidden && $.type(onNotificationHidden) === "function")
 				onNotificationHidden();
-		})
+		});
 	}
 
 	// Expose the API.

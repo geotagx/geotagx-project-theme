@@ -70,7 +70,7 @@
 	 * @param questionId the current question identifier.
 	 */
 	api_.onQuestionChanged = function(questionId){
-		previousQuestionId_ = questionId_ == null ? questionId : questionId_; // Pay attention to the trailing underscore.
+		previousQuestionId_ = questionId_ === null ? questionId : questionId_; // Pay attention to the trailing underscore.
 		questionId_ = questionId;
 	};
 	/**
@@ -128,7 +128,7 @@
 	/**
 	 * Fires an event when a user answers a question during an analysis.
 	 */
-	function onAnswerQuestion(){
+	function onAnswerQuestion(e){
 		// Note that we use the previousQuestionId_ because the onQuestionChanged
 		// function is called before this event handler, effectively changing the
 		// value of questionId_ before we have the chance to read it.
@@ -137,7 +137,7 @@
 			"projectId":projectId_,
 			"questionId":previousQuestionId_,
 			"taskId":taskId_,
-			"buttonValue":$(this).val()
+			"buttonValue":$(e.target).val()
 		};
 		analytics.fireEvent("action.answerQuestion", data);
 	}

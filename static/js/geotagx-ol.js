@@ -103,6 +103,7 @@
 			}
 
 			function onInput(e){
+				/*jshint validthis:true*/
 				var keycode = (e.keyCode ? e.keyCode : e.which);
 				if (keycode === 13){ // Keycode 13 is the carriage return key.
 					var location = $.trim(input.value);

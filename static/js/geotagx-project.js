@@ -107,6 +107,10 @@
 	 * Submits the specified task.
 	 */
 	function submitTask(task, deferred){
+		function onResolve(){
+			deferred.resolve();
+		}
+
 		// Append image information to the questionnaire results.
 		var taskRun = geotagx.questionnaire.getAnswers();
 		taskRun.img = task.info.image_url;
@@ -114,9 +118,6 @@
 		taskRun.photoVisible = taskRun.photoAccessible && taskRun.photoVisible;
 
 		if (task.photoAccessible === false){
-			function onResolve(){
-				deferred.resolve();
-			}
 			// If the photo is not accessible, submit the task and load another.
 			pybossa.saveTask(task.id, taskRun).done(onResolve).fail(onResolve);
 		}
