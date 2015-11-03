@@ -1,11 +1,11 @@
 /*
- * The GeoTag-X project helper.
+ * A GeoTag-X wrapper for pybossa.js.
  */
 ;(function(geotagx, $, undefined){
 	"use strict";
 
-	var api_ = {}; // The project API.
-	var shortName_; // The project's short name.
+	var api_ = {}; // The wrapper API.
+	var shortName_; // The current project's short name.
 
 	/**
 	 * Begins the project.
@@ -14,7 +14,7 @@
 	 */
 	api_.start = function(shortName, controlFlow, isTutorial, tutorials){
 		if ($.type(shortName) !== "string"){
-			console.log("[geotagx::project::start] Error! Invalid project slug.");
+			console.log("[geotagx::pybossa::start] Error! Invalid project slug.");
 			return;
 		}
 		shortName_ = shortName;
@@ -32,7 +32,7 @@
 		}
 	};
 	/**
-	 * Returns the project's short name.
+	 * Returns the current project's short name.
 	 */
 	api_.getShortName = function(){
 		return shortName_;
@@ -162,5 +162,5 @@
 		}
 	}
 	// Expose the API.
-	geotagx.project = api_;
+	geotagx.pybossa = api_;
 })(window.geotagx = window.geotagx || {}, jQuery);
