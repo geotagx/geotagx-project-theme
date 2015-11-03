@@ -1,0 +1,29 @@
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Patua+One|Martel+Sans|Noto+Sans">
+{%- if css %}<style type="text/css">{{css}}</style>{% endif %}
+{%- if not istutorial %}
+<div id="project-task-presenter-header" class="row">
+	<div class="col-xs-12" style="padding-right:0">
+		<div style="margin:0 0 1em 0; padding:0.5em 1em 1em 1em; border-radius:3px; background:#F4F4F4">
+			<div class="row">
+				<div id="project-contribution-reminder" class="col-xs-8">
+                    {%- if why -%}
+                    <span class="header">Why your contribution matters</span><br>{{why}}
+                    {%- endif -%}
+				</div>
+                <div id="project-task-progress" class="col-xs-4 pull-right animated fadeIn" style="text-align:right"><span id="project-task-count">CALCULATING</span><br>ANALYSES COMPLETED</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif -%}
+<div id="project-task-presenter" class="row {% if istutorial %}tutorial{% else %}analysis{% endif %}">
+    <section id="participation-appreciation-section" class="col-xs-12 hide">
+        <p>Thank you very much for participating! You have completed all available tasks for this project!</p>
+    </section>
+    {% include "questionnaire.html" %}
+    {% include "image.html" %}
+</div>
+{%- if js %}<script type="text/javascript">{{js}}</script>{% endif %}
+<script>
+$(document).ready(function(){ geotagx.pybossa.start("{{slug}}", {{questionnaire.controlflow}}{% if istutorial %}, true, {{tutorial}}{% endif %}); });
+</script>

@@ -1,0 +1,31 @@
+{% macro basic(id, title) -%}
+<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			{% if title %}<header class="modal-header"><h4 class="modal-title">{{title}}</h4></header>{% endif %}
+			<main class="modal-body">
+				{{caller()}}
+			</main>
+			<footer class="modal-footer"><button type="button" class="btn btn-primary btn-xs" data-dismiss="modal">Close</button></footer>
+		</div>
+	</div>
+</div>
+{%- endmacro %}
+
+
+{% macro help(id, title) -%}
+<section class="help">
+	If you do not know how to answer this question, get some <button class="help-toggle btn-link" rel="nofollow" data-toggle="modal" data-target="#{{id}}-help-modal"><strong>help.</strong></button>
+	<div id="{{id}}-help-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<header class="modal-header"><h4 class="modal-title">{{title}}</h4></header>
+				<main class="modal-body">
+					{{caller()}}
+				</main>
+				<footer class="modal-footer"><button type="button" class="btn btn-primary btn-xs" data-dismiss="modal">Close</button></footer>
+			</div>
+		</div>
+	</div>
+</section>
+{%- endmacro %}

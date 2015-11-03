@@ -1,0 +1,138 @@
+{% import "helpers/modal.html" as modal %}
+
+{% macro binary(key, parameters, has_help) -%}
+<button class="btn btn-answer btn-success btn-sm" value="Yes">Yes</button>
+<button class="btn btn-answer btn-danger  btn-sm" value="No">No</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro dropdown_list(key, parameters, has_help) -%}
+<select id="dropdown-list-input-for-{{key}}" style="width:100%; margin-bottom:1em" size="{{parameters.size}}">
+	{% if parameters.size <= 1 %}
+	<option name="{{key}}" selected disabled>{{parameters.prompt}}</option>
+	{% endif %}
+	{% for option in parameters.options -%}
+	<option name="{{key}}" value="{{option.value}}">{{option.label}}</option>
+	{%- endfor %}
+</select>
+<button class="btn btn-answer btn-success btn-sm" value="Done" data-input-id="dropdown-list-input-for-{{key}}">Done</button>
+<button class="btn btn-answer btn-danger  btn-sm" value="None">None of the above</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro select(key, parameters, has_help) -%}
+{% for option in parameters.options -%}
+<label><input type="radio" name="{{key}}" value="{{option.value}}">{{option.label}}</label><br>
+{% endfor -%}
+<label><input type="radio" name="{{key}}" data-other-input-id="other-input-for-{{key}}">Other<input type="text" id="other-input-for-{{key}}" class="other-input" placeholder="Please specify"></label><br>
+<button class="btn btn-answer btn-success btn-sm" value="Done">Done</button>
+<button class="btn btn-answer btn-danger  btn-sm" value="None">None of the above</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro checklist(key, parameters, has_help) -%}
+{% for option in parameters.options -%}
+<label><input type="checkbox" name="{{key}}" value="{{option.value}}">{{option.label}}</label><br>
+{% endfor -%}
+<label><input type="checkbox" name="{{key}}" data-other-input-id="other-input-for-{{key}}">Other<input type="text" id="other-input-for-{{key}}" class="other-input" placeholder="Please specify"></label><br>
+<button class="btn btn-answer btn-success btn-sm" value="Done">Done</button>
+<button class="btn btn-answer btn-danger  btn-sm" value="None">None of the above</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro illustrative_checklist(key, parameters, has_help) -%}
+<div class="row illustrations">
+	{% for option in parameters.options %}
+	{% set illustration = option.illustration %}
+	{% set source = illustration.source %}
+	{% set modal_id = ["question-", key, "-illustration-", loop.index] | join() %}
+	<div class="col-xs-4 illustration">
+		<a href="#" data-target="#{{modal_id}}" data-toggle="modal"><img src="{{illustration.image}}" class="illustration-img img-responsive"></a>
+		<label class="illustration-label"><input type="checkbox" value="{{option.value}}" name="{{key}}">{{option.label}}</label>
+		{% call modal.basic(modal_id) %}
+		<div><img src="{{illustration.image}}" class="img-responsive"></div>
+		<p>The original image and its context can be found <a rel="nofollow" target="_blank" href="{{source.url}}">here</a>, courtesy of <strong>{{source.name}}</strong>. {% if option.more_examples %}If this image is not descriptive enough, you can find some more examples <a rel="nofollow" target="_blank" href="{{option.more_examples}}">here</a>.{% endif %}</p>
+		{% endcall %}
+	</div>
+	{%- endfor %}
+	<div class="clearfix visible-xs-block"></div>
+	<div class="col-xs-12 illustration">
+		<input type="text" name="{{key}}" class="form-control illustration-input" placeholder="Enter any suggestions that do not appear above.">
+	</div>
+</div>
+<button class="btn btn-answer btn-success btn-sm" value="Done">Done</button>
+<button class="btn btn-answer btn-danger  btn-sm" value="None">None of the above</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro text(key, parameters, has_help) -%}
+<input id="text-input-for-{{key}}" type="text" class="form-control" maxlength={{parameters.maxlength}} style="width:100%; margin-bottom:1em"{% if parameters.placeholder %} placeholder="{{parameters.placeholder}}"{% endif %}>
+<button class="btn btn-answer btn-primary btn-sm" value="Done" data-input-id="text-input-for-{{key}}">Done</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro longtext(key, parameters, has_help) -%}
+<textarea id="longtext-input-for-{{key}}" class="form-control" maxlength={{parameters.maxlength}} style="max-width:100%; margin-bottom:1em"{% if parameters.placeholder %} placeholder="{{parameters.placeholder}}"{% endif %}></textarea>
+<button class="btn btn-answer btn-primary btn-sm" value="Done" data-input-id="longtext-input-for-{{key}}">Done</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro number(key, parameters, has_help) -%}
+<input id="number-input-for-{{key}}" type="number" class="form-control" maxlength={{parameters.maxlength}} style="width:100%; margin-bottom:1em"{% if parameters.placeholder %} placeholder="{{parameters.placeholder}}"{% endif %}{% if parameters.min %} min={{parameters.min}}{% endif %}{% if parameters.max %} max={{parameters.max}}{% endif %}>
+<button class="btn btn-answer btn-primary btn-sm" value="Done" data-validator="number" data-input-id="number-input-for-{{key}}">Done</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro datetime(key, parameters, has_help) -%}
+{% set input_id = ["datetime-input-for-", key] | join() %}
+<div class="row"><div class="col-md-12"><div id="{{input_id}}" class="datetime-picker"></div></div></div>
+<button class="btn btn-answer btn-primary btn-sm" value="Done" data-validator="datetime" data-input-id="{{input_id}}">Done</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro date(key, parameters, has_help) -%}
+{% set input_id = ["date-input-for-", key] | join() %}
+<div class="row" style="margin-bottom:1em"><div class="col-md-12"><div id="{{input_id}}" class="date-picker"></div></div></div>
+<button class="btn btn-answer btn-primary btn-sm" value="Done" data-validator="date" data-input-id="{{input_id}}">Done</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro url(key, parameters, has_help) -%}
+<input id="url-input-for-{{key}}" type="url" class="form-control" maxlength={{parameters.maxlength}} style="width:100%; margin-bottom:1em"{% if parameters.placeholder %} placeholder="{{parameters.placeholder}}"{% endif %}>
+<button class="btn btn-answer btn-primary btn-sm" value="Done" data-validator="url" data-input-id="url-input-for-{{key}}">Done</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro geotagging(key, parameters, has_help) -%}
+<div id="geotagx-ol-map-{{key}}" class="geotagx-ol-map"{% if parameters.location %} data-location="{{parameters.location}}"{% endif %}></div>
+<button class="btn btn-answer btn-primary btn-sm" value="Done" data-target-id="geotagx-ol-map-{{key}}">Done</button>
+<button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %}>I don't know</button>
+<button class="btn btn-answer btn-default btn-sm" value="NotClear">Image not clear</button>
+{%- endmacro %}
+
+
+{% macro custom(key, parameters, has_help) -%}
+{# TODO Implement me #}
+{%- endmacro %}
