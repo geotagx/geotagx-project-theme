@@ -4,6 +4,9 @@
     "type": "git",
     "url": "https://github.com/geotagx.org/geotagx-project-theme"
   },
+  "scripts": {
+    "test": "grunt test"
+  },
   "devDependencies": {
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-cssmin": "^0.14.0",
