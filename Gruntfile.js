@@ -5,6 +5,7 @@ module.exports = function(grunt){
             css:"assets/css",
             js:"assets/js",
             bundles:"assets/bundles",
+            tests:"test",
             vendors:"vendor"
         },
         concat:{
@@ -73,7 +74,10 @@ module.exports = function(grunt){
             }
         },
         qunit:{
-            files:["test/**/*.html"]
+            options:{
+                force:true //TODO Remove when at least one test is implemented.
+            },
+            testsuite:"<%= dir.tests %>/**/*.html"
         }
     });
     grunt.loadNpmTasks("grunt-contrib-concat");
