@@ -1,0 +1,3 @@
+[submodule "docs/community-guidelines"]
+	path = docs/community-guidelines
+	url = https://github.com/geotagx/community-guidelines.git
