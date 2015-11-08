@@ -12,7 +12,10 @@ module.exports = function(grunt){
             options:{
                 separator:";"
             },
-            bundles:{
+            // Concatenate uncompressed files to create a bundle. Adding already
+            // compressed files to this step greatly slows down the minification
+            // step (that follows concatenation), without providing any benefits.
+            uncompressed:{
                 files:{
                     "<%= dir.bundles %>/asset.bundle.core.css":[
                         "<%= dir.css %>/*.css",
@@ -30,7 +33,8 @@ module.exports = function(grunt){
                     ]
                 }
             },
-            vendors:{
+            // Concatenate the already compressed files to their respective bundles.
+            compressed:{
                 files:{
                     "<%= dir.bundles %>/asset.bundle.geolocation.css":[
                         "<%= dir.vendors %>/openlayers/ol.css",
@@ -87,6 +91,6 @@ module.exports = function(grunt){
     grunt.loadNpmTasks("grunt-contrib-uglify");
 
     grunt.registerTask("test",    ["jshint","qunit"]);
-    grunt.registerTask("bundle",  ["concat:bundles","cssmin","uglify","concat:vendors"]);
+    grunt.registerTask("bundle",  ["concat:uncompressed","cssmin","uglify","concat:compressed"]);
     grunt.registerTask("default", ["test","bundle"]);
 };
