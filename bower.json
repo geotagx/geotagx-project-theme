@@ -25,6 +25,8 @@
   ],
   "dependencies": {
     "jquery": "^1.*",
-    "qunit": "~1.20.0"
+    "qunit": "~1.20.0",
+    "bootstrap-tour": "~0.10.2",
+    "bootstrap-datetimepicker": "eonasdan-bootstrap-datetimepicker#~4.17.37"
   }
 }

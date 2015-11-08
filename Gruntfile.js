@@ -10,6 +10,7 @@ module.exports = function(grunt){
         },
         concat:{
             options:{
+                stripBanners:true,
                 separator:";"
             },
             // Concatenate uncompressed files to create a bundle. Adding already
@@ -36,6 +37,21 @@ module.exports = function(grunt){
             // Concatenate the already compressed files to their respective bundles.
             compressed:{
                 files:{
+                    "<%= dir.bundles %>/asset.bundle.core.css":[
+                        "<%= dir.vendors %>/bootstrap-tour/build/css/bootstrap-tour.min.css",
+                        "<%= dir.bundles %>/asset.bundle.core.css"
+                    ],
+                    "<%= dir.bundles %>/asset.bundle.core.js":[
+                        "<%= dir.vendors %>/bootstrap-tour/build/js/bootstrap-tour.min.js",
+                        "<%= dir.bundles %>/asset.bundle.core.js"
+                    ],
+                    "<%= dir.bundles %>/asset.bundle.datetime.css":[
+                        "<%= dir.vendors %>/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
+                    ],
+                    "<%= dir.bundles %>/asset.bundle.datetime.js":[
+                        "<%= dir.vendors %>/moment/min/moment.min.js",
+                        "<%= dir.vendors %>/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+                    ],
                     "<%= dir.bundles %>/asset.bundle.geolocation.css":[
                         "<%= dir.vendors %>/openlayers/ol.css",
                         "<%= dir.bundles %>/asset.bundle.geolocation.css"
