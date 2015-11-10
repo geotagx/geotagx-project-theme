@@ -10,8 +10,7 @@ module.exports = function(grunt){
         },
         concat:{
             options:{
-                stripBanners:true,
-                separator:";"
+                stripBanners:true
             },
             // Concatenate uncompressed files to create a bundle. Adding already
             // compressed files to this step greatly slows down the minification
