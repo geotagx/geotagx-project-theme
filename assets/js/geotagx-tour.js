@@ -62,7 +62,7 @@
 					},
 					{
 						element:"#image-source",
-						placement:"bottom",
+						placement:"left",
 						title:"Image source",
 						content:"... and the image source. More often than not, the source will give you contextual information that may prove to be invaluable."
 					},
