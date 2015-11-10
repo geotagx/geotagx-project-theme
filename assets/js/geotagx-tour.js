@@ -87,7 +87,8 @@
      * the questionnaire while the tour is being taken.
      */
     function prefix(){
-        var getQuestionPrefix = function(key){ return ".question[data-key='" + key + "'] > "; }
+        /*jshint validthis:true*/
+        var getQuestionPrefix = function(key){ return ".question[data-key='" + key + "'] > "; };
         var selector = this.element;
         var oldKey = this.currentQuestionKey;
         var currentKey = geotagx.questionnaire.getCurrentQuestionKey();

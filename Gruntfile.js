@@ -81,7 +81,7 @@ module.exports = function(grunt){
         jshint:{
             files:[
                 "Gruntfile.js",
-                "static/js/*.js",
+                "assets/js/*.js",
                 "test/**/*.js"
             ],
             options:{
