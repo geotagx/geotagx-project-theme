@@ -40,22 +40,22 @@
 						content:"You will be tasked with analysing an image. When you complete an analysis, a new image will be presented to you."
 					},
 					{
-						element:".question[data-id='1'] > .answer button[value='NotClear']",
-						onShow:syncStepElement,
+						element:".answer button[value='NotClear']",
+						onShow:prefix,
 						placement:"bottom",
 						title:"Image not clear enough",
 						content:"Certain factors may limit how much information you can take away from an image. For instance, it is almost impossible to deduce the color of the sky from a black and white photo, or discern a person's facial features from a blurry photo. Select this if you can not answer a question based on what you see in the image."
 					},
 					{
-						element:".question[data-id='1'] > .title",
-						onShow:syncStepElement,
+						element:".title",
+						onShow:prefix,
 						placement:"bottom",
 						title:"The Question",
 						content:"This is one of many questions asked about the image to the right. Try to answer it to the best of your capabilities ..."
 					},
 					{
-						element:".question[data-id='1'] .help-toggle",
-						onShow:syncStepElement,
+						element:".help-toggle",
+						onShow:prefix,
 						placement:"bottom",
 						title:"Help!",
 						content:"... but remember, if you are having trouble answering a question, take a look at the help ..."
@@ -67,8 +67,8 @@
 						content:"... and the image source. More often than not, the source will give you contextual information that may prove to be invaluable."
 					},
 					{
-						element:".question[data-id='1'] > .answer button[value='Unknown']",
-						onShow:syncStepElement,
+						element:".answer button[value='Unknown']",
+						onShow:prefix,
 						placement:"bottom",
 						title:"You're only human",
 						content:"Sometimes a question may prove challenging. If you can not answer it, your best bet is to select this answer."
@@ -82,18 +82,23 @@
 		questionnaireTour_.start(true);
 	};
 	/**
-	 * Synchronizes the step's element field to match the current question.
-	 * This means that the tour can be started on any question. Furthermore,
-	 * the user can interact with the page while the tour is being taken and
-	 * the tour modals should still anchor correctly.
+	 * Prefixes an element with the current question's selector so that the tour
+	 * modals can anchor correctly, which also allows the user to interact with
+	 * the questionnaire while the tour is being taken.
 	 */
-	function syncStepElement(){
-		/*jshint validthis:true*/
-		var question = ".question[data-key='" + geotagx.questionnaire.getCurrentQuestionKey() + "']";
-		var element = this.element;
-		if (question !== element.substring(1, question.length)){
-			var suffix = element.substring(element.indexOf("']") + 2);
-			this.element = question + suffix;
+	function prefix(){
+		var getQuestionPrefix = function(key){ return ".question[data-key='" + key + "'] > "; }
+		var selector = this.element;
+		var oldKey = this.currentQuestionKey;
+		var currentKey = geotagx.questionnaire.getCurrentQuestionKey();
+		if (currentKey !== oldKey){
+			// Remove the previous parent selector, if it exists.
+			if (typeof(oldKey) === "string")
+				selector = selector.substring(getQuestionPrefix(oldKey).length);
+
+			// Prefix the element selector with the new parent selector.
+			this.element = getQuestionPrefix(currentKey) + selector;
+			this.currentQuestionKey = currentKey;
 		}
 	}
 
