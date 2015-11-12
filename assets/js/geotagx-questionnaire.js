@@ -470,7 +470,8 @@
 			if ($picker.length > 0 && $picker.data("DateTimePicker"))
 				$picker.data("DateTimePicker").clear();
 		});
-		geotagx.ol.resetAllMaps();
+		if (geotagx.ol && geotagx.ol.resetAllMaps)
+			geotagx.ol.resetAllMaps();
 	}
 	/**
 	 * Returns the percentage complete based on the specified question index.
