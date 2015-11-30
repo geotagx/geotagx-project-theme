@@ -27,6 +27,7 @@
     "jquery": "^1.*",
     "qunit": "~1.20.0",
     "bootstrap-tour": "~0.10.2",
-    "bootstrap-datetimepicker": "eonasdan-bootstrap-datetimepicker#~4.17.37"
+    "bootstrap-datetimepicker": "eonasdan-bootstrap-datetimepicker#~4.17.37",
+    "i18next": "~1.11.1"
   }
 }
