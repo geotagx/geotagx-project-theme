@@ -7,10 +7,10 @@
 			<div class="row">
 				<div id="project-contribution-reminder" class="col-xs-8">
                     {%- if why -%}
-                    <span class="header">Why your contribution matters</span><br>{{why}}
+                    <span class="header" data-i18n="why-contribute">Why your contribution matters</span><br>{{why[default_language]}}
                     {%- endif -%}
 				</div>
-                <div id="project-task-progress" class="col-xs-4 pull-right animated fadeIn" style="text-align:right"><span id="project-task-count">CALCULATING</span><br>ANALYSES COMPLETED</div>
+                <div id="project-task-progress" class="col-xs-4 pull-right animated fadeIn" style="text-align:right"><span id="project-task-count" data-i18n="calculating-task-progress">CALCULATING</span><br><span data-i18n="project-analyses-completed">ANALYSES COMPLETED</span></div>
 			</div>
 		</div>
 	</div>
@@ -18,7 +18,7 @@
 {% endif -%}
 <div id="project-task-presenter" class="row {% if istutorial %}tutorial{% else %}analysis{% endif %}">
     <section id="participation-appreciation-section" class="col-xs-12 hide">
-        <p>Thank you very much for participating! You have completed all available tasks for this project!</p>
+        <p data-i18n="thanks-for-participating">Thank you very much for participating! You have completed all available tasks for this project!</p>
     </section>
     {% include "questionnaire.html" %}
     {% include "image.html" %}

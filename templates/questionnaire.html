@@ -71,12 +71,12 @@
 	{% import "helpers/input.html" as input %}
 	{% for key, entry in questions.iteritems() -%}
 	<div class="question hide" data-key="{{key}}" data-type="{{entry.type}}" data-index={{loop.index}}>
-		<header class="title">{{entry.question}}</header>
-		{% if entry.hint %}<p>{{entry.hint}}</p>{% endif %}
+		<header class="title" data-i18n="question-{{key}}-header">{{entry.question[default_language]}}</header>
+		{% if entry.hint %}<p data-i18n="question-{{key}}-hint">{{entry.hint[default_language]}}</p>{% endif %}
 		{%- set has_help = True if entry.help else False -%}
 
 		{% if entry.type == "geotagging" %}
-		<section class="help">
+		<section class="help" data-i18n="geotagging-help-hint">
 			If you do not know how to answer this question, get some <button class="help-toggle btn-link" rel="nofollow" data-toggle="modal" data-target="#geotagging-help-modal"><strong>help.</strong></button>
 		</section>
 		{% elif entry.type != "geotagging" and has_help %}
@@ -85,18 +85,18 @@
 
 		<div class="answer" data-key="{{key}}">
 			{%   if entry.type == "binary"                 %}{{input.binary(key, entry.parameters, has_help)}}
-			{% elif entry.type == "dropdown-list"          %}{{input.dropdown_list(key, entry.parameters, has_help)}}
-			{% elif entry.type == "select"                 %}{{input.select(key, entry.parameters, has_help)}}
-			{% elif entry.type == "checklist"              %}{{input.checklist(key, entry.parameters, has_help)}}
-			{% elif entry.type == "illustrative-checklist" %}{{input.illustrative_checklist(key, entry.parameters, has_help)}}
-			{% elif entry.type == "text"                   %}{{input.text(key, entry.parameters, has_help)}}
-			{% elif entry.type == "longtext"               %}{{input.longtext(key, entry.parameters, has_help)}}
-			{% elif entry.type == "number"                 %}{{input.number(key, entry.parameters, has_help)}}
-			{% elif entry.type == "datetime"               %}{{input.datetime(key, entry.parameters, has_help)}}
-			{% elif entry.type == "date"                   %}{{input.date(key, entry.parameters, has_help)}}
-			{% elif entry.type == "url"                    %}{{input.url(key, entry.parameters, has_help)}}
-			{% elif entry.type == "geotagging"             %}{{input.geotagging(key, entry.parameters, True)}}
-			{% elif entry.type == "custom"                 %}{{input.custom(key, entry.parameters, has_help)}}
+			{% elif entry.type == "dropdown-list"          %}{{input.dropdown_list(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "select"                 %}{{input.select(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "checklist"              %}{{input.checklist(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "illustrative-checklist" %}{{input.illustrative_checklist(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "text"                   %}{{input.text(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "longtext"               %}{{input.longtext(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "number"                 %}{{input.number(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "datetime"               %}{{input.datetime(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "date"                   %}{{input.date(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "url"                    %}{{input.url(key, entry.parameters, has_help, default_language)}}
+			{% elif entry.type == "geotagging"             %}{{input.geotagging(key, entry.parameters, True, default_language)}}
+			{% elif entry.type == "custom"                 %}{{input.custom(key, entry.parameters, has_help, default_language)}}
 			{% endif %}
 		</div>
 	</div>
@@ -113,8 +113,8 @@
 	{%- endif %}
 	<div class="show-on-task-loaded">
 		<hr>
-		<div><button id="questionnaire-show-comments" class="btn btn-block btn-default btn-sm" disabled>Show comments</button></div>
-		<div><button id="questionnaire-hide-comments" class="btn btn-block btn-default btn-sm hide"    >Hide comments</button></div>
+		<div><button id="questionnaire-show-comments" class="btn btn-block btn-default btn-sm" disabled data-i18n="show-comments">Show comments</button></div>
+		<div><button id="questionnaire-hide-comments" class="btn btn-block btn-default btn-sm hide"     data-i18n="hide-comments">Hide comments</button></div>
 		<div id="disqus_thread" class="hide"></div>
 	</div>
 </section>
