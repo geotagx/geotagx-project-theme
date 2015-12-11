@@ -5,6 +5,7 @@ module.exports = function(grunt){
             css:"assets/css",
             js:"assets/js",
             bundles:"assets/bundles",
+            translations:"assets/js/translations",
             tests:"test",
             vendors:"vendor"
         },
@@ -18,18 +19,31 @@ module.exports = function(grunt){
             uncompressed:{
                 files:{
                     "<%= dir.bundles %>/asset.bundle.core.css":[
-                        "<%= dir.css %>/*.css",
-                        "!<%= dir.css %>/geotagx-ol.css"
+                        "<%= dir.css %>/geotagx-questionnaire-image.css",
+                        "<%= dir.css %>/geotagx-questionnaire-status-panel.css",
+                        "<%= dir.css %>/geotagx-template.css"
                     ],
                     "<%= dir.bundles %>/asset.bundle.core.js":[
-                        "<%= dir.js %>/*.js",
-                        "!<%= dir.js %>/geotagx-ol.js"
+                        "<%= dir.js %>/geotagx-project.js",
+                        "<%= dir.js %>/geotagx-questionnaire.js",
+                        "<%= dir.js %>/geotagx-image.js",
+                        "<%= dir.js %>/geotagx-tour.js",
+                        "<%= dir.js %>/geotagx-analytics.js",
+                        "<%= dir.js %>/geotagx-pybossa.js",
+                        "<%= dir.js %>/geotagx-tutorial.js"
                     ],
                     "<%= dir.bundles %>/asset.bundle.geolocation.css":[
                         "<%= dir.css %>/geotagx-ol.css"
                     ],
                     "<%= dir.bundles %>/asset.bundle.geolocation.js":[
                         "<%= dir.js %>/geotagx-ol.js"
+                    ],
+                    "<%= dir.bundles %>/asset.bundle.i18n.js":[
+                        "<%= dir.js %>/geotagx-project-i18n.js",
+                        "<%= dir.translations %>/geotagx-project-translation-en.js"
+                    ],
+                    "<%= dir.bundles %>/asset.bundle.i18n-translation-fr.js":[
+                        "<%= dir.translations %>/geotagx-project-translation-fr.js"
                     ]
                 }
             },
@@ -58,6 +72,10 @@ module.exports = function(grunt){
                     "<%= dir.bundles %>/asset.bundle.geolocation.js":[
                         "<%= dir.vendors %>/openlayers/ol.js",
                         "<%= dir.bundles %>/asset.bundle.geolocation.js"
+                    ],
+                    "<%= dir.bundles %>/asset.bundle.i18n.js":[
+                        "<%= dir.vendors %>/i18next/i18next.min.js",
+                        "<%= dir.bundles %>/asset.bundle.i18n.js"
                     ]
                 }
             }
@@ -82,6 +100,7 @@ module.exports = function(grunt){
             files:[
                 "Gruntfile.js",
                 "assets/js/*.js",
+                "assets/js/translations/*.js",
                 "test/**/*.js"
             ],
             options:{
