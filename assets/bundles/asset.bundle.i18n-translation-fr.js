@@ -1,0 +1,1 @@
+!function(a){"use strict";a.project.i18n.addLanguage("français","fr",!1,{})}(window.geotagx=window.geotagx||{});
