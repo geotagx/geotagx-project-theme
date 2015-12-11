@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Internationalization (i18n) demo</title>
+</head>
+<body>
+    <div>
+        <select id="language-selector">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="fb">Foobar</option>
+        </select>
+    </div>
+    <span data-i18n="hello">Hello</span>,&nbsp;<span data-i18n="world">world</span>!
+    <script src="../vendor/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/js/geotagx-project.js"></script>
+    <script src="../assets/bundles/asset.bundle.i18n.js"></script>
+    <script>
+        $("#language-selector").change(function(){
+            var isoCode = $(this).find(":selected").val();
+            geotagx.project.i18n.setLanguage(isoCode);
+        });
+
+        // Add languages.
+        geotagx.project.i18n.addLanguage("english",  "en", {hello:"Hello", world:"world"});
+        geotagx.project.i18n.addLanguage("français", "fr", {hello:"Bonjour", world:"monde"});
+        geotagx.project.i18n.addLanguage("foobar",   "fb", {hello:"Foo"});
+
+        // Extend 'foobar' to add a missing translation.
+        geotagx.project.i18n.extendLanguage("fb", {world:"bar"});
+    </script>
+</body>
