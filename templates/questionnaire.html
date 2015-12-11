@@ -80,7 +80,7 @@
 			If you do not know how to answer this question, get some <button class="help-toggle btn-link" rel="nofollow" data-toggle="modal" data-target="#geotagging-help-modal"><strong>help.</strong></button>
 		</section>
 		{% elif entry.type != "geotagging" and has_help %}
-		{% call modal.help(key, entry.question) %}{{entry.help}}{% endcall %}
+		{% call modal.help(key, entry.question[default_language]) %}{{entry.help}}{% endcall %}
 		{% endif %}
 
 		<div class="answer" data-key="{{key}}">
