@@ -21,7 +21,7 @@
         //Configure the PDF iframe object here
         this.pdf = this.frame.appendChild(document.createElement("iframe"));
         this.pdf.width="100%";
-        this.pdf.height="500px";
+        this.pdf.height="600px";
         this.pdf.viewer_url = "http://mozilla.github.io/pdf.js/web/viewer.html";
         this.pdf.default_zoom = "page-width";
     };
