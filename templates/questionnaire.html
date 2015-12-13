@@ -1,6 +1,10 @@
 {% import "helpers/modal.html" as modal -%}
 {% set questions = questionnaire.questions -%}
+{% if pdfmode: %}
+<section id="questionnaire-section" class="col-xs-4">
+{% else: %}
 <section id="questionnaire-section" class="col-xs-6">
+{% endif %}
 	<div id="questionnaire-status-panel">
 		<header>
 			YOUR CURRENT ANALYSIS IS <span id="current-analysis-progress">0</span>% COMPLETE
@@ -28,7 +32,13 @@
 		</main>
 		<footer><div id="questionnaire-progress"><div id="questionnaire-progress-bar"></div></div></footer>
 	</div>
-	<button id="questionnaire-no-photo" class="btn btn-sm btn-block btn-danger show-on-task-loaded"><i class="fa fa-fw fa-lg fa-warning"></i>&nbsp;I do not see a photo</button>
+	<button id="questionnaire-no-photo" class="btn btn-sm btn-block btn-danger show-on-task-loaded">
+		{% if pdfmode: %}
+		<i class="fa fa-fw fa-lg fa-warning"></i>&nbsp;I do not see a PDF Document
+		{% else: %}
+		<i class="fa fa-fw fa-lg fa-warning"></i>&nbsp;I do not see a photo
+		{% endif %}
+	</button>
 	<button id="questionnaire-rewind" class="btn btn-sm btn-block btn-primary show-on-task-loaded" disabled><i class="fa fa-fw fa-lg fa-arrow-circle-left"></i>&nbsp;Go to previous question</button>
 	{% if questions -%}
 	{% call modal.basic("geotagging-help-modal", "How to geolocalize an image") %}
@@ -71,8 +81,8 @@
 	{% import "helpers/input.html" as input %}
 	{% for key, entry in questions.iteritems() -%}
 	<div class="question hide" data-key="{{key}}" data-type="{{entry.type}}" data-index={{loop.index}}>
-		<header class="title" data-i18n="question-{{key}}-header">{{entry.question[default_language]}}</header>
-		{% if entry.hint %}<p data-i18n="question-{{key}}-hint">{{entry.hint[default_language]}}</p>{% endif %}
+		<header class="title" data-i18n="question-{{key}}-header">{{entry.question}}</header>
+		{% if entry.hint %}<p data-i18n="question-{{key}}-hint">{{entry.hint}}</p>{% endif %}
 		{%- set has_help = True if entry.help else False -%}
 
 		{% if entry.type == "geotagging" %}
@@ -80,23 +90,29 @@
 			If you do not know how to answer this question, get some <button class="help-toggle btn-link" rel="nofollow" data-toggle="modal" data-target="#geotagging-help-modal"><strong>help.</strong></button>
 		</section>
 		{% elif entry.type != "geotagging" and has_help %}
-		{% call modal.help(key, entry.question[default_language]) %}{{entry.help}}{% endcall %}
+		{% call modal.help(key, entry.question) %}{{entry.help}}{% endcall %}
+		{% endif %}
+
+		{% if pdfmode: %}
+			{% set mode="pdf" %}
+		{% else %}
+			{% set mode="image" %}
 		{% endif %}
 
 		<div class="answer" data-key="{{key}}">
-			{%   if entry.type == "binary"                 %}{{input.binary(key, entry.parameters, has_help)}}
-			{% elif entry.type == "dropdown-list"          %}{{input.dropdown_list(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "select"                 %}{{input.select(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "checklist"              %}{{input.checklist(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "illustrative-checklist" %}{{input.illustrative_checklist(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "text"                   %}{{input.text(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "longtext"               %}{{input.longtext(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "number"                 %}{{input.number(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "datetime"               %}{{input.datetime(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "date"                   %}{{input.date(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "url"                    %}{{input.url(key, entry.parameters, has_help, default_language)}}
-			{% elif entry.type == "geotagging"             %}{{input.geotagging(key, entry.parameters, True, default_language)}}
-			{% elif entry.type == "custom"                 %}{{input.custom(key, entry.parameters, has_help, default_language)}}
+			{%   if entry.type == "binary"                 %}{{input.binary(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "dropdown-list"          %}{{input.dropdown_list(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "select"                 %}{{input.select(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "checklist"              %}{{input.checklist(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "illustrative-checklist" %}{{input.illustrative_checklist(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "text"                   %}{{input.text(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "longtext"               %}{{input.longtext(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "number"                 %}{{input.number(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "datetime"               %}{{input.datetime(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "date"                   %}{{input.date(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "url"                    %}{{input.url(key, entry.parameters, has_help, mode, default_language )}}
+			{% elif entry.type == "geotagging"             %}{{input.geotagging(key, entry.parameters, True, mode, default_language )}}
+			{% elif entry.type == "custom"                 %}{{input.custom(key, entry.parameters, has_help, mode, default_language )}}
 			{% endif %}
 		</div>
 	</div>

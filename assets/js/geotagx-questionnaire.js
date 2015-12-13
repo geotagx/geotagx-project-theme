@@ -7,6 +7,7 @@
 	var api_ = {}; // The questionnaire API.
 	var answers_ = {}; // The questionnaire's answers.
 	var image_ = null; // The image to analyze.
+	var pdf_ = null;
 	var $questions_ = null; // The set of questions.
     var numberOfQuestions_ = 0; // The number of questions asked in this project, including the spam filter.
 	var initialQuestionKey_ = null; // The key to the questionnaire's initial question.
@@ -23,7 +24,12 @@
 		initializeOpenLayers();
 		initializeDisqus();
 		initializeDatetimePickers();
-		initializeImage();
+
+		if(window.geotagx_project_template_mode=="pdf"){
+			initializePDF();
+		}else if(window.geotagx_project_template_mode=="image"){
+			initializeImage();
+		}
 
 		$(".btn-answer").on("click.questionnaire", onQuestionAnswered);
 		$("#questionnaire-no-photo").on("click", onNoPhotoVisible);
@@ -122,12 +128,20 @@
 	 * Initialize the image.
 	 */
 	function initializeImage(){
+		$("#image-section").removeClass("hide");
 		image_ = new geotagx.Image("image");
 
 		$("#image-zoom-in").on("click.questionnaire", image_.zoomIn.bind(image_));
 		$("#image-zoom-out").on("click.questionnaire", image_.zoomOut.bind(image_));
 		$("#image-rotate-left").on("click.questionnaire", image_.rotateLeft.bind(image_));
 		$("#image-rotate-right").on("click.questionnaire", image_.rotateRight.bind(image_));
+	}
+	/**
+	 * Initialize the PDF.
+	 */
+	function initializePDF(){
+		$("#pdf-section").removeClass("hide");
+		pdf_ = new geotagx.PDF("pdf");
 	}
 	/**
 	 *
@@ -184,7 +198,7 @@
 				answer = $.trim(answer.toLowerCase());
 
 				// Binary questions are a bit special: If the user clicks "No",
-				// "I don't know" or "Image not clear", then this is considered a "No".
+				// "I don't know" or "Image/PDF not clear", then this is considered a "No".
 				if (getQuestionType(key) === "binary")
 					answer = answer === "yes" ? "yes" : "no";
 
@@ -546,6 +560,16 @@
 	api_.setImage = function(imageUrl, imageSource){
 		image_.setSource(imageUrl);
 		$("#image-source").attr("href", imageSource);
+	};
+	/**
+	 * Sets the PDF to analyze.
+	 * @param imageUrl the direct link to the image.
+	 * @param imageSource the link to the page where the image was found.
+	 */
+	api_.setPDF = function(imageUrl, imageSource){
+		console.log("Inside Set PDF :: " + imageUrl);
+		pdf_.setSource(imageUrl);
+		$("#pdf-source").attr("href", imageSource);
 	};
 	/**
 	 * Returns the key to the next question based on the specified answer to the

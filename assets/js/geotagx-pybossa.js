@@ -41,58 +41,95 @@
 	 * Handles PyBossa's taskLoaded event.
 	 */
 	function onTaskLoaded(task, deferred){
-		if (!$.isEmptyObject(task)){
-			task.photoAccessible = true;
 
-			// Cache the image for later use.
-			$("<img>")
-			.load(function(){ deferred.resolve(task); })
-			.error(function(e){
-				task.photoAccessible = false;
+		if(window.geotagx_project_template_mode == "image"){
+			if (!$.isEmptyObject(task)){
+				task.photoAccessible = true;
+
+				// Cache the image for later use.
+				$("<img>")
+				.load(function(){ deferred.resolve(task); })
+				.error(function(e){
+					task.photoAccessible = false;
+					deferred.resolve(task);
+				})
+				.attr("src", task.info.image_url);
+			}
+			else
 				deferred.resolve(task);
-			})
-			.attr("src", task.info.image_url);
-		}
-		else
+		}else if(window.geotagx_project_template_mode == "pdf"){
 			deferred.resolve(task);
+		}
 	}
 	/**
 	 * Handles PyBossa's presentTask event.
 	 */
 	function onPresentTask(task, deferred){
 		if (!$.isEmptyObject(task)){
-			if (task.photoAccessible){
-				// Show/hide respective elements.
-				$(".show-on-task-loaded").removeClass("show-on-task-loaded").hide().fadeIn(200);
-				$(".hide-on-task-loaded").hide();
 
-				// Update the user progress.
-				pybossa.userProgress(shortName_).done(function(data){
-					$("#project-task-count").text(data.done + "/" + data.total);
-				});
+			if(window.geotagx_project_template_mode == "image"){
+				if (task.photoAccessible){
+					// Show/hide respective elements.
+					$(".show-on-task-loaded").removeClass("show-on-task-loaded").hide().fadeIn(200);
+					$(".hide-on-task-loaded").hide();
 
-				geotagx.questionnaire.setImage(task.info.image_url, task.info.source_uri);
+					// Update the user progress.
+					pybossa.userProgress(shortName_).done(function(data){
+						$("#project-task-count").text(data.done + "/" + data.total);
+					});
 
-				// Set the submission button's handler. Note that off().on() removes the previous handler
-				// and sets a new one, every time a new task is loaded. This prevents a chain of events
-				// being called when a button is pushed once.
-				$("#submit-analysis").off("click.task").on("click.task", function(){
-					var $submitButton = $("#submit-analysis");
-					var $busyIcon = $("#questionnaire-busy-icon");
+					geotagx.questionnaire.setImage(task.info.image_url, task.info.source_uri);
 
-					// Disable the submit button and display the busy icon.
-					$busyIcon.removeClass("hide").hide().fadeIn(300);
+					// Set the submission button's handler. Note that off().on() removes the previous handler
+					// and sets a new one, every time a new task is loaded. This prevents a chain of events
+					// being called when a button is pushed once.
+					$("#submit-analysis").off("click.task").on("click.task", function(){
+						var $submitButton = $("#submit-analysis");
+						var $busyIcon = $("#questionnaire-busy-icon");
 
-					$submitButton.toggleClass("busy btn-success");
-					$submitButton.prop("disabled", true);
+						// Disable the submit button and display the busy icon.
+						$busyIcon.removeClass("hide").hide().fadeIn(300);
 
+						$submitButton.toggleClass("busy btn-success");
+						$submitButton.prop("disabled", true);
+
+						submitTask(task, deferred);
+					});
+					geotagx.analytics.onTaskChanged(task.id);
+					geotagx.questionnaire.start();
+				}
+				else
 					submitTask(task, deferred);
-				});
-				geotagx.analytics.onTaskChanged(task.id);
-				geotagx.questionnaire.start();
+			}else if(window.geotagx_project_template_mode == "pdf"){
+					// Show/hide respective elements.
+					$(".show-on-task-loaded").removeClass("show-on-task-loaded").hide().fadeIn(200);
+					$(".hide-on-task-loaded").hide();
+
+					// Update the user progress.
+					pybossa.userProgress(shortName_).done(function(data){
+						$("#project-task-count").text(data.done + "/" + data.total);
+					});
+
+					geotagx.questionnaire.setPDF(task.info.image_url, task.info.source_uri);
+
+					// Set the submission button's handler. Note that off().on() removes the previous handler
+					// and sets a new one, every time a new task is loaded. This prevents a chain of events
+					// being called when a button is pushed once.
+					$("#submit-analysis").off("click.task").on("click.task", function(){
+						var $submitButton = $("#submit-analysis");
+						var $busyIcon = $("#questionnaire-busy-icon");
+
+						// Disable the submit button and display the busy icon.
+						$busyIcon.removeClass("hide").hide().fadeIn(300);
+
+						$submitButton.toggleClass("busy btn-success");
+						$submitButton.prop("disabled", true);
+
+							submitTask(task, deferred);
+					});
+					geotagx.analytics.onTaskChanged(task.id);
+					geotagx.questionnaire.start();
 			}
-			else
-				submitTask(task, deferred);
 		}
 		else {
 			// If there're no more tasks, then hide the questionnaire and image,
@@ -100,30 +137,75 @@
 			$("#participation-appreciation-section").removeClass("hide");
 			$("#questionnaire-section").addClass("hide");
 			$("#image-section").addClass("hide");
+			$("#pdf-section").addClass("hide");
 			$("#project-task-presenter-header").addClass("hide");
 		}
 	}
 	/**
 	 * Submits the specified task.
 	 */
-	function submitTask(task, deferred){
+		function submitTask(task, deferred){
 		function onResolve(){
 			deferred.resolve();
 		}
 
 		// Append image information to the questionnaire results.
 		var taskRun = geotagx.questionnaire.getAnswers();
-		taskRun.img = task.info.image_url;
-		taskRun.photoAccessible = task.photoAccessible;
-		taskRun.photoVisible = taskRun.photoAccessible && taskRun.photoVisible;
+		if (window.geotagx_project_template_mode == "image"){
+			taskRun.img = task.info.image_url;
+			taskRun.photoAccessible = task.photoAccessible;
+			taskRun.photoVisible = taskRun.photoAccessible && taskRun.photoVisible;
 
-		if (task.photoAccessible === false){
-			// If the photo is not accessible, submit the task and load another.
-			pybossa.saveTask(task.id, taskRun).done(onResolve).fail(onResolve);
-		}
-		else if (task.photoAccessible === true){
+			if (task.photoAccessible === false){
+				// If the photo is not accessible, submit the task and load another.
+				pybossa.saveTask(task.id, taskRun).done(onResolve).fail(onResolve);
+			}
+			else if (task.photoAccessible === true){
+				var $submitButton = $("#submit-analysis");
+				var $busyIcon = $("#questionnaire-busy-icon");
+
+				pybossa.saveTask(task.id, taskRun)
+				.done(function(){
+					$busyIcon.fadeOut(300, function(){ $(this).addClass("hide"); });
+
+					// Display the status message.
+					var $message = $("#submit-message-success");
+					$message.removeClass("hide");
+					setTimeout(function(){
+						deferred.resolve();
+						$message.addClass("hide");
+						$submitButton.toggleClass("busy btn-success");
+						$submitButton.prop("disabled", false);
+					}, 1500);
+				})
+				.fail(function(response){
+					$busyIcon.fadeOut(300, function(){ $(this).addClass("hide"); });
+					$submitButton.toggleClass("busy btn-success");
+					$submitButton.prop("disabled", false);
+
+					var $message = $("#submit-message-failure");
+
+					// If the status code is 403 (FORBIDDEN), then we assume that the
+					// data was sent but the deferred object has not yet been resolved.
+					if (response.status === 403){
+						deferred.resolve();
+						$message.addClass("hide");
+					}
+					else {
+						$message.removeClass("hide");
+						$submitButton.one("click", function(){
+							$message.addClass("hide");
+						});
+					}
+				});
+			}
+
+		} else if(window.geotagx_project_template_mode == "pdf"){
+			taskRun.pdf = task.info.image_url;
 			var $submitButton = $("#submit-analysis");
 			var $busyIcon = $("#questionnaire-busy-icon");
+
+			console.log("Saving Task....");
 
 			pybossa.saveTask(task.id, taskRun)
 			.done(function(){

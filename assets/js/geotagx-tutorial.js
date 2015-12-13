@@ -43,7 +43,11 @@
 	};
 
 	function setTutorial(tutorial){
-		geotagx.questionnaire.setImage(tutorial.image, tutorial.image_source);
+		if(window.geotagx_project_template_mode == "image"){
+			geotagx.questionnaire.setImage(tutorial.image, tutorial.image_source);
+		}else if(window.geotagx_project_template_mode == "pdf"){
+			geotagx.questionnaire.setPDF(tutorial.image, tutorial.image_source);
+		}
 		assertions_ = tutorial.assertions;
 	}
 	/**

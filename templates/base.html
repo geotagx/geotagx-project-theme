@@ -7,7 +7,7 @@
 			<div class="row">
 				<div id="project-contribution-reminder" class="col-xs-8">
                     {%- if why -%}
-                    <span class="header" data-i18n="why-contribute">Why your contribution matters</span><br>{{why[default_language]}}
+                    <span class="header" data-i18n="why-contribute">Why your contribution matters</span><br>{{why}}
                     {%- endif -%}
 				</div>
                 <div id="project-task-progress" class="col-xs-4 pull-right animated fadeIn" style="text-align:right"><span id="project-task-count" data-i18n="calculating-task-progress">CALCULATING</span><br><span data-i18n="project-analyses-completed">ANALYSES COMPLETED</span></div>
@@ -20,8 +20,22 @@
     <section id="participation-appreciation-section" class="col-xs-12 hide">
         <p data-i18n="thanks-for-participating">Thank you very much for participating! You have completed all available tasks for this project!</p>
     </section>
-    {% include "questionnaire.html" %}
-    {% include "image.html" %}
+
+		{% if pdfmode: %}
+			{% include "pdf.html" %}
+			{% include "questionnaire.html" %}
+		{% else: %}
+			{% include "questionnaire.html" %}
+			{% include "image.html" %}
+		{% endif %}
+
+		<script type="text/javascript">
+		{% if pdfmode: %}
+			window.geotagx_project_template_mode = "pdf";
+		{% else %}
+			window.geotagx_project_template_mode = "image";
+		{% endif %}
+		</script>
 </div>
 {%- if js %}<script type="text/javascript">{{js}}</script>{% endif %}
 <script>
