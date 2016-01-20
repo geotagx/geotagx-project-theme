@@ -1,6 +1,6 @@
 {% import "helpers/modal.html" as modal %}
 
-{% macro binary(key, parameters, has_help) -%}
+{% macro binary(key, parameters, has_help, mode, default_language) -%}
 <button class="btn btn-answer btn-success btn-sm" value="Yes" data-i18n="btn-answer-yes">Yes</button>
 <button class="btn btn-answer btn-danger  btn-sm" value="No" data-i18n="btn-answer-no">No</button>
 <button class="btn btn-answer btn-warning btn-sm" value="Unknown"{% if has_help %} data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"{% endif %} data-i18n="btn-answer-unknown">I don't know</button>
