@@ -38,12 +38,12 @@ module.exports = function(grunt){
                     "<%= dir.bundles %>/asset.bundle.geolocation.js":[
                         "<%= dir.js %>/geotagx-ol.js"
                     ],
-                    "<%= dir.bundles %>/asset.bundle.language.js":[
-                        "<%= dir.js %>/geotagx-project-language.js",
-                        "<%= dir.translations %>/geotagx-project-translation-en.js"
+                    "<%= dir.bundles %>/asset.bundle.multilanguage.js":[
+                        "<%= dir.js %>/geotagx-project-multilanguage.js",
+                        "<%= dir.translations %>/geotagx-project-multilanguage-translation-en.js"
                     ],
-                    "<%= dir.bundles %>/asset.bundle.language-translation-fr.js":[
-                        "<%= dir.translations %>/geotagx-project-translation-fr.js"
+                    "<%= dir.bundles %>/asset.bundle.multilanguage-translation-fr.js":[
+                        "<%= dir.translations %>/geotagx-project-multilanguage-translation-fr.js"
                     ]
                 }
             },
@@ -73,9 +73,9 @@ module.exports = function(grunt){
                         "<%= dir.vendors %>/openlayers/ol.js",
                         "<%= dir.bundles %>/asset.bundle.geolocation.js"
                     ],
-                    "<%= dir.bundles %>/asset.bundle.language.js":[
+                    "<%= dir.bundles %>/asset.bundle.multilanguage.js":[
                         "<%= dir.vendors %>/i18next/i18next.min.js",
-                        "<%= dir.bundles %>/asset.bundle.language.js"
+                        "<%= dir.bundles %>/asset.bundle.multilanguage.js"
                     ]
                 }
             }
