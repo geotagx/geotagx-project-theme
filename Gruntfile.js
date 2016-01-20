@@ -29,7 +29,6 @@ module.exports = function(grunt){
                         "<%= dir.js %>/geotagx-image.js",
                         "<%= dir.js %>/geotagx-pdf.js",
                         "<%= dir.js %>/geotagx-tour.js",
-                        "<%= dir.js %>/geotagx-analytics.js",
                         "<%= dir.js %>/geotagx-pybossa.js",
                         "<%= dir.js %>/geotagx-tutorial.js"
                     ],
