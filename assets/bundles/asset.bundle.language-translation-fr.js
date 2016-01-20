@@ -1,0 +1,1 @@
+!function(a){"use strict";a.add("Français","fr",!1,{})}(window.geotagx.project.language);

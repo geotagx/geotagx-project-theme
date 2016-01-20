@@ -20,9 +20,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-;(function(geotagx){
+;(function(language){
 	"use strict";
 
-	geotagx.project.i18n.addLanguage("français", "fr", false, {
+	language.add("Français", "fr", false, {
 	});
-})(window.geotagx = window.geotagx || {});
+})(window.geotagx.project.language);

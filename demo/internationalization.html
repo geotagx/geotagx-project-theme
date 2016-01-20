@@ -13,20 +13,20 @@
     </div>
     <span data-i18n="hello">Hello</span>,&nbsp;<span data-i18n="world">world</span>!
     <script src="../vendor/jquery/dist/jquery.min.js"></script>
-    <script src="../assets/js/geotagx-project.js"></script>
-    <script src="../assets/bundles/asset.bundle.i18n.js"></script>
+    <script src="../assets/js/geotagx-project-core.js"></script>
+    <script src="../assets/bundles/asset.bundle.language.js"></script>
     <script>
         $("#language-selector").change(function(){
             var isoCode = $(this).find(":selected").val();
-            geotagx.project.i18n.setLanguage(isoCode);
+            geotagx.project.language.set(isoCode);
         });
 
         // Add languages.
-        geotagx.project.i18n.addLanguage("english",  "en", {hello:"Hello", world:"world"});
-        geotagx.project.i18n.addLanguage("français", "fr", {hello:"Bonjour", world:"monde"});
-        geotagx.project.i18n.addLanguage("foobar",   "fb", {hello:"Foo"});
+        geotagx.project.language.add("English",  "en", {hello:"Hello", world:"world"});
+        geotagx.project.language.add("Français", "fr", {hello:"Bonjour", world:"monde"});
+        geotagx.project.language.add("Foobar",   "fb", {hello:"Foo"});
 
         // Extend 'foobar' to add a missing translation.
-        geotagx.project.i18n.extendLanguage("fb", {world:"bar"});
+        geotagx.project.language.extend("fb", {world:"bar"});
     </script>
 </body>

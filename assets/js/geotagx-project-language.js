@@ -1,6 +1,6 @@
 /*
- * A script that adds internationalization (i18n) support to GeoTag-X projects.
- * Copyright (c) 2015, UNITAR.
+ * A script that adds multi-language support to GeoTag-X projects.
+ * Copyright (c) 2016, UNITAR.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-;(function(geotagx, $, undefined){
+;(function(project, $, undefined){
     "use strict";
 
-    var api_ = {};
+    project.language = {};
+
     var database_ = {};
     var defaultLanguage_ = $("html").attr("lang") || "en";
     var initialized_ = false;
+
     /**
      * Adds a new language.
      */
-    api_.addLanguage = function(languageName, isoCode, languageTranslations, isLanguageRightToLeft){
+    project.language.add = function(languageName, isoCode, languageTranslations, isLanguageRightToLeft){
         database_[isoCode] = {
             name:languageName,
             isRightToLeft:isLanguageRightToLeft || false,
@@ -40,7 +42,7 @@
     /**
      * Extends a pre-existing language.
      */
-    api_.extendLanguage = function(isoCode, translations){
+    project.language.extend = function(isoCode, translations){
         if (!$.isEmptyObject(translations) && isoCode in database_){
             var db = database_[isoCode];
             for (var key in translations)
@@ -52,14 +54,14 @@
      * If the internationalization library has not been initialized,
      * the ISO code for the default language ("en") is returned.
      */
-    api_.getLanguage = function(){
+    project.language.get = function(){
         return i18n.lng() || defaultLanguage_;
     };
     /**
      * Sets the project's language to the language assigned to the specified ISO 639-1 code.
      * If no such language is found, then the default language is set.
      */
-    api_.setLanguage = function(isoCode){
+    project.language.set = function(isoCode){
         if (initialized_ === false){
             initialize();
             initialized_ = true;
@@ -84,7 +86,7 @@
      * Returns true if a language is written with a right-to-left script, false otherwise.
      * If the language is not found, false is returned.
      */
-    api_.isLanguageRightToLeft = function(isoCode){
+    project.language.isRightToLeft = function(isoCode){
         return isoCode in database_ && database_[isoCode].isRightToLeft;
     };
     /**
@@ -97,7 +99,4 @@
             resStore:database_
         });
     }
-
-    // Expose the API.
-    geotagx.project.i18n = api_;
-})(window.geotagx = window.geotagx || {}, jQuery);
+})(window.geotagx.project, jQuery);

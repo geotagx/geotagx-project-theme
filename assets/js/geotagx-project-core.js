@@ -1,6 +1,6 @@
 /*
  * A script to initialize GeoTag-X projects.
- * Copyright (c) 2015, UNITAR.
+ * Copyright (c) 2016, UNITAR.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,11 @@
 ;(function(geotagx, $, undefined){
     "use strict";
 
+    // Create the project object that all modules will be attached to.
     geotagx.project = geotagx.project || {};
+
+
+
 
     // TODO Complete me.
 })(window.geotagx = window.geotagx || {}, jQuery);
