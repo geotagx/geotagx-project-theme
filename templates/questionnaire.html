@@ -81,8 +81,8 @@
 	{% import "helpers/input.html" as input %}
 	{% for key, entry in questions.iteritems() -%}
 	<div class="question hide" data-key="{{key}}" data-type="{{entry.type}}" data-index={{loop.index}}>
-		<header class="title" data-i18n="question-{{key}}-header">{{entry.question}}</header>
-		{% if entry.hint %}<p data-i18n="question-{{key}}-hint">{{entry.hint}}</p>{% endif %}
+		<header class="title" data-i18n="question-{{key}}-header">{{entry.question[default_language]}}</header>
+		{% if entry.hint %}<p data-i18n="question-{{key}}-hint">{{entry.hint[default_language]}}</p>{% endif %}
 		{%- set has_help = True if entry.help else False -%}
 
 		{% if entry.type == "geotagging" %}
@@ -90,7 +90,7 @@
 			If you do not know how to answer this question, get some <button class="help-toggle btn-link" rel="nofollow" data-toggle="modal" data-target="#geotagging-help-modal"><strong>help.</strong></button>
 		</section>
 		{% elif entry.type != "geotagging" and has_help %}
-		{% call modal.help(key, entry.question) %}{{entry.help}}{% endcall %}
+		{% call modal.help(key, entry.question[default_language]) %}{{entry.help}}{% endcall %}
 		{% endif %}
 
 		{% if pdfmode: %}

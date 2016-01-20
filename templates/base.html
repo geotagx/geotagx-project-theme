@@ -7,7 +7,7 @@
 			<div class="row">
 				<div id="project-contribution-reminder" class="col-xs-8">
                     {%- if why -%}
-                    <span class="header" data-i18n="why-contribute">Why your contribution matters</span><br>{{why}}
+                    <span class="header" data-i18n="why-contribute">Why your contribution matters</span><br>{{why[default_language]}}
                     {%- endif -%}
 				</div>
                 <div id="project-task-progress" class="col-xs-4 pull-right animated fadeIn" style="text-align:right"><span id="project-task-count" data-i18n="calculating-task-progress">CALCULATING</span><br><span data-i18n="project-analyses-completed">ANALYSES COMPLETED</span></div>
