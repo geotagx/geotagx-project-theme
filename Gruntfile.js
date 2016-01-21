@@ -24,7 +24,7 @@ module.exports = function(grunt){
                         "<%= dir.css %>/geotagx-template.css"
                     ],
                     "<%= dir.bundles %>/asset.bundle.core.js":[
-                        "<%= dir.js %>/geotagx-project.js",
+                        "<%= dir.js %>/geotagx-project-core.js",
                         "<%= dir.js %>/geotagx-questionnaire.js",
                         "<%= dir.js %>/geotagx-image.js",
                         "<%= dir.js %>/geotagx-pdf.js",
