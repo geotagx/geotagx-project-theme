@@ -5,8 +5,8 @@
 	"use strict";
 
 	var api_ = {}; // The tutorial API.
-	var numberOfTutorials_ = 0; // The number of available tutorials.
-	var currentTutorial_ = 0; // The index of the current tutorial.
+	var numberOfExercises_ = 0; // The number of available tutorial exercises.
+	var currentExercise_ = 0; // The index of the current tutorial exercise.
 	var assertions_ = null; // An object containing assertions about the image being analyzed.
 	var nextQuestionKey_ = 0; // The next question's key.
 
@@ -28,27 +28,30 @@
 			hideNotification(function(){ geotagx.questionnaire.showQuestion(nextQuestionKey_); });
 		});
 		$("#take-another-tutorial").on("click.tutorial", function(){
-			currentTutorial_ = (currentTutorial_ + 1) % numberOfTutorials_;
-			setTutorial(tutorials[currentTutorial_]);
+			currentExercise_ = (currentExercise_ + 1) % numberOfExercises_;
+			setTutorialExercise(tutorials[currentExercise_]);
 			geotagx.questionnaire.start();
 		});
 
-		numberOfTutorials_ = tutorials.length;
-		currentTutorial_ = Math.floor((Math.random() * numberOfTutorials_)); // Select a random tutorial out of all available ones.
-		setTutorial(tutorials[currentTutorial_]);
+		numberOfExercises_ = tutorials.length;
+		currentExercise_ = Math.floor((Math.random() * numberOfExercises_)); // Select a random exercise.
+		setTutorialExercise(tutorials[currentExercise_]);
 
 		geotagx.questionnaire.onBeforeShowQuestion(beforeShowQuestion);
 		geotagx.questionnaire.onShowNextQuestion(onShowNextQuestion);
 		geotagx.questionnaire.start();
 	};
 
-	function setTutorial(tutorial){
+	function setTutorialExercise(exercise){
+		var subjectUrl = exercise.subject.url;
+		var subjectSource = exercise.subject.source;
+
 		if(window.geotagx_project_template_mode == "image"){
-			geotagx.questionnaire.setImage(tutorial.image, tutorial.image_source);
+			geotagx.questionnaire.setImage(subjectUrl, subjectSource);
 		}else if(window.geotagx_project_template_mode == "pdf"){
-			geotagx.questionnaire.setPDF(tutorial.image, tutorial.image_source);
+			geotagx.questionnaire.setPDF(subjectUrl, subjectSource);
 		}
-		assertions_ = tutorial.assertions;
+		assertions_ = exercise.assertions;
 	}
 	/**
 	 * Returns the key to the next question based on the specified answer to

@@ -12,10 +12,10 @@
 		</header>
 		<main>
 			<div class="show-on-analysis-complete">
-			{% if istutorial %}
-				{%   if tutorial_len == 1 %}<p>You have successfully completed the tutorial and are are now ready to begin working on the project however if you feel like you are not quite ready, you can <a id="take-another-tutorial" class="clickable">retake</a> the tutorial!</p>
-				{% elif tutorial_len  > 1 %}<p>You have successfully completed one of the project's tutorials however if you feel like you are not quite ready, we highly recommend <a id="take-another-tutorial" class="clickable">taking another</a>.</p>{% endif %}
-				<a id="start-contributing" class="btn btn-success btn-block" href="/project/{{slug}}/newtask">START CONTRIBUTING</a>
+			{% if is_tutorial %}
+				{%   if tutorial_length == 1 %}<p>You have successfully completed the tutorial and are are now ready to begin working on the project however if you feel like you are not quite ready, you can <a id="take-another-tutorial" class="clickable">retake</a> the tutorial!</p>
+				{% elif tutorial_length  > 1 %}<p>You have successfully completed one of the project's tutorials however if you feel like you are not quite ready, we highly recommend <a id="take-another-tutorial" class="clickable">taking another</a>.</p>{% endif %}
+				<a id="start-contributing" class="btn btn-success btn-block" href="/project/{{short_name}}/newtask">START CONTRIBUTING</a>
 			{% else %}
 				<div style="position:relative">
 					<button id="submit-analysis" class="btn btn-block btn-success">
@@ -79,18 +79,18 @@
 	{% endcall %}
 
 	{% import "helpers/input.html" as input %}
-	{% for key, entry in questions.iteritems() -%}
-	<div class="question hide" data-key="{{key}}" data-type="{{entry.type}}" data-index={{loop.index}}>
-		<header class="title" data-i18n="question-{{key}}-header">{{entry.question[default_language]}}</header>
-		{% if entry.hint %}<p data-i18n="question-{{key}}-hint">{{entry.hint[default_language]}}</p>{% endif %}
-		{%- set has_help = True if entry.help else False -%}
+	{% for key, question in questions.iteritems() -%}
+	<div class="question hide" data-key="{{key}}" data-type="{{question.type}}" data-index={{loop.index}}>
+		<header class="title" data-i18n="question-{{key}}-header">{{question.title[default_language]}}</header>
+		{% if question.hint %}<p data-i18n="question-{{key}}-hint">{{question.hint[default_language]}}</p>{% endif %}
+		{%- set has_help = True if question.help else False -%}
 
-		{% if entry.type == "geotagging" %}
+		{% if question.type == "geotagging" %}
 		<section class="help" data-i18n="geotagging-help-hint">
 			If you do not know how to answer this question, get some <button class="help-toggle btn-link" rel="nofollow" data-toggle="modal" data-target="#geotagging-help-modal"><strong>help.</strong></button>
 		</section>
-		{% elif entry.type != "geotagging" and has_help %}
-		{% call modal.help(key, entry.question[default_language]) %}{{entry.help}}{% endcall %}
+		{% elif question.type != "geotagging" and has_help %}
+		{% call modal.help(key, question.title[default_language]) %}{{question.help}}{% endcall %}
 		{% endif %}
 
 		{% if pdfmode: %}
@@ -100,25 +100,25 @@
 		{% endif %}
 
 		<div class="answer" data-key="{{key}}">
-			{%   if entry.type == "binary"                 %}{{input.binary(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "dropdown-list"          %}{{input.dropdown_list(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "select"                 %}{{input.select(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "checklist"              %}{{input.checklist(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "illustrative-checklist" %}{{input.illustrative_checklist(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "text"                   %}{{input.text(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "longtext"               %}{{input.longtext(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "number"                 %}{{input.number(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "datetime"               %}{{input.datetime(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "date"                   %}{{input.date(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "url"                    %}{{input.url(key, entry.parameters, has_help, mode, default_language )}}
-			{% elif entry.type == "geotagging"             %}{{input.geotagging(key, entry.parameters, True, mode, default_language )}}
-			{% elif entry.type == "custom"                 %}{{input.custom(key, entry.parameters, has_help, mode, default_language )}}
+			{%   if question.type == "binary"                 %}{{input.binary(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "dropdown-list"          %}{{input.dropdown_list(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "select"                 %}{{input.select(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "checklist"              %}{{input.checklist(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "illustrative-checklist" %}{{input.illustrative_checklist(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "text"                   %}{{input.text(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "longtext"               %}{{input.longtext(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "number"                 %}{{input.number(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "datetime"               %}{{input.datetime(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "date"                   %}{{input.date(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "url"                    %}{{input.url(key, question.parameters, has_help, mode, default_language )}}
+			{% elif question.type == "geotagging"             %}{{input.geotagging(key, question.parameters, True, mode, default_language )}}
+			{% elif question.type == "custom"                 %}{{input.custom(key, question.parameters, has_help, mode, default_language )}}
 			{% endif %}
 		</div>
 	</div>
 	{%- endfor %}
 	{% endif %}
-	{% if istutorial -%}
+	{% if is_tutorial -%}
 	<div class="col-xs-12">
 		<div id="tutorial-message-box" class="row hide">
 			<div id="tutorial-failure-message" class="col-xs-12 hide-on-expected"></div>

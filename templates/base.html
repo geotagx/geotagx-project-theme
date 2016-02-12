@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Patua+One|Martel+Sans|Noto+Sans">
 {%- if css %}<style type="text/css">{{css}}</style>{% endif %}
-{%- if not istutorial %}
+{%- if not is_tutorial %}
 <div id="project-task-presenter-header" class="row">
 	<div class="col-xs-12" style="padding-right:0">
 		<div style="margin:0 0 1em 0; padding:0.5em 1em 1em 1em; border-radius:3px; background:#F4F4F4">
@@ -16,7 +16,7 @@
 	</div>
 </div>
 {% endif -%}
-<div id="project-task-presenter" class="row {% if istutorial %}tutorial{% else %}analysis{% endif %}">
+<div id="project-task-presenter" class="row {% if is_tutorial %}tutorial{% else %}analysis{% endif %}">
     <section id="participation-appreciation-section" class="col-xs-12 hide">
         <p data-i18n="thanks-for-participating">Thank you very much for participating! You have completed all available tasks for this project!</p>
     </section>
@@ -39,5 +39,5 @@
 </div>
 {%- if js %}<script type="text/javascript">{{js}}</script>{% endif %}
 <script>
-$(document).ready(function(){ geotagx.pybossa.start("{{slug}}", {{questionnaire.controlflow}}{% if istutorial %}, true, {{tutorial}}{% endif %}); });
+$(document).ready(function(){ geotagx.pybossa.start("{{short_name}}", {{questionnaire.branches}}{% if is_tutorial %}, true, {{tutorial_exercises}}{% endif %}); });
 </script>
