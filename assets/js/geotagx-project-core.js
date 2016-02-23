@@ -1,6 +1,6 @@
 /*
- * A script to initialize GeoTag-X projects.
- * Copyright (c) 2016, UNITAR.
+ * A script to manage GeoTag-X projects.
+ * Copyright (c) 2016, UNITAR-UNOSAT.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,45 @@
     // Create the project object that all modules will be attached to.
     geotagx.project = geotagx.project || {};
 
+    $(document).ready(function(){
+        if (geotagx.project.initialize())
+            onProjectInitialized();
+        else
+            onProjectError();
+    });
+    /**
+     * Initializes the project.
+     */
+    geotagx.project.initialize = function(){
+        var initialized = geotagx.project.questionnaire.initialize(configurations["task-presenter"]);
+        if (initialized)
+            onQuestionnaireInitialized();
+        else
+            onQuestionnaireError();
+/*
+        initialized = geotagx.project.subject.initialize();
+        if (initialized)
+            onQuestionnaireInitialized();
+        else
+            onQuestionnaireError();
+*/
+        return initialized;
+    };
 
+    function onProjectInitialized(){
+        geotagx.project.questionnaire.start();
+        //TODO Complete me.
+    }
 
+    function onProjectError(message){
+        //TODO Complete me.
+    }
 
-    // TODO Complete me.
+    function onQuestionnaireInitialized(){
+        //TODO Complete me.
+    }
+
+    function onQuestionnaireError(){
+        //TODO Complete me.
+    }
 })(window.geotagx = window.geotagx || {}, jQuery);
