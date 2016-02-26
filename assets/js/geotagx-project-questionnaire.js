@@ -77,6 +77,9 @@
         $("#dropdown-list-field").change(function(){ document.getElementById("dropdown-list-field-reset").disabled = false; });
         $("#dropdown-list-field-reset").click(function(){ document.getElementById("dropdown-list-field").selectedIndex = 0; this.disabled = true; });
 
+
+        api_.on(EVENT_QUESTIONNAIRE_COMPLETED, function(){ console.log(answers_); }); // For debug purposes.
+
         return true;
     };
     /**
@@ -86,8 +89,6 @@
      * @param key a question key.
      */
     api_.start = function(key){
-                                                                                                                                //key = "waterColor";
-                                                                                                                                key = "smallPoolsOfWaterVisible";
         // Reset the progress stack and answer set.
         progressStack_ = [];
         for (var k in answers_){
@@ -167,62 +168,36 @@
     api_.getNextQuestion = function(answer, question){
         question = question || api_.getCurrentQuestion();
 
-        console.log(answer, question.type);
-
-
         var nextQuestionIndex = -1;
         var branch = question.branch || null;
-        if (branch !== null && answer !== null){
-            answer = answer.toLowerCase();
-            if (answer in branch){
-                var nextQuestionKey = branch[answer];
-                nextQuestionIndex = index_[nextQuestionKey];
+        if (branch !== null){
+            var STRICT = 0;
+            var CONDITIONAL = 1;
+
+            var branchType = typeof(branch) === "object" ? CONDITIONAL : typeof(branch) === "string" ? STRICT : undefined;
+            if (branchType === STRICT)
+                nextQuestionIndex = index_[branch];
+            else if (branchType === CONDITIONAL && answer !== null){
+                answer = $.trim(answer).toLowerCase(); // toLowerCase for case-insensitive string comparisons.
+
+                // Binary questions are a bit special: if the user clicks "I Don't Know" or "Subject Not Clear"
+                // and neither of these answers has been explicitly specified as a branching condition, the
+                // answer is assumed to be "No".
+                if (question.type === "binary" && !(answer in branch) && answer !== "yes")
+                    answer = "no";
+
+                if (answer in branch){
+                    var nextQuestionKey = branch[answer];
+                    nextQuestionIndex = index_[nextQuestionKey];
+                }
             }
         }
-        else
+        // If the next question's index is still -1, then no branching directive was set.
+        // In such a case, the next question is the successor to the current question.
+        if (nextQuestionIndex === -1)
             nextQuestionIndex = index_[question.key] + 1;
 
-        return questions_[nextQuestionIndex] || null;
-
-
-
-
-
-
-/*
-        var nextKey = null;
-
-        if (controlFlow_ && key in controlFlow_){
-            var branch = controlFlow_[key];
-            var branchType = $.type(branch);
-            if (branchType === "string")
-                nextKey = $.trim(branch);
-            else if (branchType === "object"){
-                // Convert the answer to lower-case for a case-insensitive comparison.
-                answer = $.trim(answer.toLowerCase());
-
-                // Binary questions are a bit special: If the user clicks "No",
-                // "I don't know" or "Image/PDF not clear", then this is considered a "No".
-                if (getQuestionType(key) === "binary")
-                    answer = answer === "yes" ? "yes" : "no";
-
-                // Get the question key based on the answer.
-                if (answer in branch)
-                    nextKey = branch[answer];
-            }
-        }
-        // If the next question could not be determined from the control flow,
-        // then it is implied that the next question is the successor to the
-        // question with the specified key.
-        if (!isValidQuestionKey(nextKey)){
-            var $node = getQuestionNode(key);
-            if ($node)
-                nextKey = $node.next().data("key") || null;
-        }
-        // If the key is null then there're no more questions to display, so
-        // logically the end of the questionnaire has been reached.
-        return nextKey || "end";
-*/
+        return nextQuestionIndex < questions_.length ? questions_[nextQuestionIndex] : null;
     };
     /**
      * Displays the question with the specified key.
