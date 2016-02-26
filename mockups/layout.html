@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Project interface demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic|Raleway">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Montserrat|Open+Sans:300,400,600,700,800,900|Patua+One|Martel+Sans:400,700,800,900|Noto+Sans">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/css/geotagx-project-questionnaire.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+
+
+
+        </div>
+        <div class="row" style="margin-top:1em">
+            <div id="loading-screen">
+            </div>
+            <div class="col-xs-12 col-lg-10 col-lg-offset-1">
+                <div class="row">
+                    <div id="questionnaire" class="col-xs-5">
+                        <div id="questionnaire-progress">
+                            <button id="questionnaire-rewind" disabled><i class="fa fa-backward x-fa-caret-left"></i></button>
+                            <div id="questionnaire-progress-bar-container">
+                                <div id="questionnaire-progress-bar"></div>
+                                <div id="questionnaire-percentage-complete"></div>
+                            </div>
+                        </div>
+                        <div id="question" data-type data-key data-index>
+                            <section id="information">
+                                <header><h1 id="question-title"></h1></header>
+                                <div>
+                                    <p id="question-assistance">
+                                        <span id="question-hint"></span>
+                                        <span id="question-more-help">If you are having trouble answering this question, <a href="#" role="button"><strong>get some more help</strong></a>.</span>
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="question-answer">
+                                <div id="question-answer-fields">
+                                    <div class="field-group dropdown-list">
+                                        <section class="input"><select id="dropdown-list-field"></select></section>
+                                        <section class="reset"><button id="dropdown-list-field-reset" disabled><i class="fa fa-close"></i></button></section>
+                                    </div>
+                                    <div class="field-group select">
+                                        <div id="select-field" class="multiple-choice">
+                                            <section class="custom-labels"></section>
+                                            <label role="other-option"><input type="radio" value="Other"><span role="label-name" data-i18n="other">Other</span><input type="text"></label>
+                                        </div>
+                                    </div>
+                                    <div class="field-group checklist">
+                                        <div id="checklist-field" class="multiple-choice">
+                                            <section class="custom-labels"></section>
+                                            <label role="other-option"><input type="checkbox" value="Other"><span role="label-name" data-i18n="other">Other</span><input type="text"></label>
+                                        </div>
+                                    </div>
+<!--
+                                    <div class="field-group illustrative-checklist"></div>
+-->
+                                    <div class="field-group text"><input id="text-field" type="text"></div>
+                                    <div class="field-group longtext"><textarea id="longtext-field"></textarea></div>
+                                    <div class="field-group number"><input id="number-field" type="number"></div>
+<!--
+                                    <div class="field-group datetime"></div>
+                                    <div class="field-group date"></div>
+-->
+                                    <div class="field-group url"><input id="url-field" type="url"></div>
+<!--
+                                    <div class="field-group geolocation"></div>
+                                    <div class="field-group custom"></div>
+-->
+                                </div>
+                                <div id="question-answer-buttons">
+                                    <button class="btn btn-sm btn-yes  show-on-binary" value="Yes"><span data-lang-key="yes">Yes</span></button>
+                                    <button class="btn btn-sm btn-no   show-on-binary" value="No"><span data-i18n="no">No</span></button>
+                                    <button class="btn btn-sm btn-ok   hide-on-binary" value="OK"><span data-lang-key="ok">OK</span></button>
+                                    <button class="btn btn-sm btn-none show-on-list"   value="None"><span data-lang-key="none-of-the-above">None of the above</span></button>
+                                    <button class="btn btn-sm btn-unclear"             value="NotClear"><span data-i18n="subject-not-clear-enough">Subject not clear enough</span></button>
+                                    <button class="btn btn-sm btn-unknown"             value="Unknown" data-toggle="tooltip" data-placement="bottom" title="Did you read the help?" data-i18n="btn-answer-unknown">I don't know</button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div id="subject" class="col-xs-7">
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var configurations = {
+            "task-presenter":{
+                "locale":{
+                    "default":"en-US",
+                    "available":{
+                        "en-US":"English (American)",
+                        "fr-CH":"Français (Suisse)"
+                    }
+                },
+                "why":{
+                    "en-US":"This is a simple project that shows you how to create a multilingual questionnaire.",
+                    "fr-CH":"Ceci est un projet qui a pour but de vous montrer comment créer une questionnaire multilingue."
+                },
+                "subject":{
+                    "type":"image"
+                },
+                "questionnaire":{
+                    "index":{
+                        "isWaterVisible":0,
+                        "waterColor":1,
+                        "smallPoolsOfWaterVisible":2,
+                        "smallPoolsOfWaterNearShelters":3,
+                        "largeBodyOfWaterVisible":4,
+                        "name":5
+                    },
+                    "questions":[
+                        {
+                            "key":"isWaterVisible",
+                            "type":"binary",
+                            "title":{
+                                "en-US":"Can you see any water in the photo?",
+                                "fr-CH":"Can you see any water in the photo? (fr-CH)"
+                            },
+                            "hint":{
+                                "en-US":"More specifically, can you see small water bodies like puddles, or large ones such as rivers or lakes?",
+                                "fr-CH":"More specifically, can you see small water bodies like puddles, or large ones such as rivers or lakes? (fr-CH)"
+                            },
+                            "branch":{
+                                "yes":"waterColor",
+                                "no":"name"
+                            }
+                        },
+                        {
+                            "key":"waterColor",
+                            "type":"select",
+                            "title":{
+                                "en-US":"What color is the water?",
+                                "fr-CH":"Quelle est la couleur de l'eau?"
+                            },
+                            "parameters":{
+                                "options":[
+                                    {
+                                        "label":{
+                                            "en-US":"Red",
+                                            "fr-CH":"Rouge"
+                                        },
+                                        "value":"Red"
+                                    },
+                                    {
+                                        "label":{
+                                            "en-US":"Aqua Blue",
+                                            "fr-CH":"Bleu Aquatique"
+                                        },
+                                        "value":"AquaBlue"
+                                    },
+                                    {
+                                        "label":{
+                                            "en-US":"Green",
+                                            "fr-CH":"Verte"
+                                        },
+                                        "value":"Green"
+                                    },
+                                    {
+                                        "label":{
+                                            "en-US":"Orange",
+                                            "fr-CH":"Orange"
+                                        },
+                                        "value":"Orange"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "key":"smallPoolsOfWaterVisible",
+                            "type":"binary",
+                            "title":{
+                                "en-US":"Can you see small pools of water?",
+                                "fr-CH":"Can you see small pools of water? (fr-CH)"
+                            },
+                            "branch":{
+                                "no":"largeBodyOfWaterVisible"
+                            }
+                        },
+                        {
+                            "key":"smallPoolsOfWaterNearShelters",
+                            "type":"binary",
+                            "title":{
+                                "en-US":"Are these small pools of water near human shelters or a settlement?",
+                                "fr-CH":"Are these small pools of water near human shelters or a settlement? (fr-CH)"
+                            },
+                            "branch":"name"
+                        },
+                        {
+                            "key":"largeBodyOfWaterVisible",
+                            "type":"binary",
+                            "title":{
+                                "en-US":"Can you see a large body of water?",
+                                "fr-CH":"Can you see a large body of water? (fr-CH)"
+                            }
+                        },
+                        {
+                            "key":"name",
+                            "type":"text",
+                            "title":{
+                                "en-US":"Please enter your name",
+                                "fr-CH":"Please enter your name (fr-CH)"
+                            },
+                            "parameters":{
+                                "placeholder":{
+                                    "en-US":"A fake name will do",
+                                    "fr-CH":"A fake name will do (fr-CH)"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    </script>
+    <script src="../vendor/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/js/geotagx-project-core.js"></script>
+    <script src="../assets/js/geotagx-project-questionnaire.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</body>
