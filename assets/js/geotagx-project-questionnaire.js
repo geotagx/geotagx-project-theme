@@ -299,7 +299,7 @@
             var type = question.type;
 
             $("#question")
-            .data("key", key)
+            .attr("data-key", key)
             .attr("data-type", type); // Why .attr() instead of .data()? See https://stackoverflow.com/q/7458649
 
             var hasHint = "hint" in question;
