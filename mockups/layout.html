@@ -30,12 +30,27 @@
                             </div>
                         </div>
                         <div id="question" data-type data-key data-index>
-                            <section id="information">
+                            <section id="question-information">
                                 <header><h1 id="question-title"></h1></header>
+                                <div id="question-help-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="questionHelpModalLabel">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 id="question-help-modal-title" class="modal-title"></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div id="question-help-modal-content"></div>
+                                                <p style="margin-top:1em"><i class="fa fa-lg fa-fw fa-info-circle"></i>&nbsp;<button class="btn btn-xs btn-unknown" disabled><span data-i18n="i-do-not-know">I don't know</span></button>&nbsp;&nbsp;<span data-i18n="help-modal-protip">is a very useful answer if you are not sure how to reply to this question</span>.</p>
+                                            </div>
+                                            <div class="modal-footer"><button type="button" class="btn btn-primary btn-xs" data-dismiss="modal"><span data-i18n="close">Close</span></button></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div>
                                     <p id="question-assistance">
                                         <span id="question-hint"></span>
-                                        <span id="question-more-help">If you are having trouble answering this question, <a href="#" role="button"><strong>get some more help</strong></a>.</span>
+                                        <span id="question-more-help">If you are having trouble answering this question, <a id="question-help-modal-toggle" role="button" data-toggle="modal" data-target="#question-help-modal"><strong>get some help</strong></a>.</span>
                                     </p>
                                 </div>
                             </section>
@@ -79,7 +94,7 @@
                                     <button class="btn btn-sm btn-ok   hide-on-binary" value="OK"><span data-lang-key="ok">OK</span></button>
                                     <button class="btn btn-sm btn-none show-on-list"   value="None"><span data-lang-key="none-of-the-above">None of the above</span></button>
                                     <button class="btn btn-sm btn-unclear"             value="NotClear"><span data-i18n="subject-not-clear-enough">Subject not clear enough</span></button>
-                                    <button class="btn btn-sm btn-unknown"             value="Unknown" data-toggle="tooltip" data-placement="bottom" title="Did you read the help?" data-i18n="btn-answer-unknown">I don't know</button>
+                                    <button class="btn btn-sm btn-unknown"             value="Unknown" data-toggle="tooltip" data-placement="bottom" title="Did you read the help?"><span data-i18n="i-do-not-know">I don't know</span></button>
                                 </div>
                             </section>
                         </div>
@@ -131,6 +146,10 @@
                             "hint":{
                                 "en-US":"More specifically, can you see small water bodies like puddles, or large ones such as rivers or lakes?",
                                 "fr-CH":"More specifically, can you see small water bodies like puddles, or large ones such as rivers or lakes? (fr-CH)"
+                            },
+                            "help":{
+                                "en-US":"Lorem ipsum dolor sit amet, eu possim epicuri dignissim his. Sanctus democritum eu eum, ad noster omnium oporteat sea, iusto viris alterum cu per. Ei sea voluptaria deseruisse. Pro modus aliquid argumentum at, ludus populo ne his. Tincidunt intellegebat et eos, eu per dicunt vidisse commune. Docendi intellegam ei eum. Odio intellegat ad ius. No sale aliquando usu, an mel nibh efficiendi. Nam in labitur admodum instructior, sit ornatus accusam assentior ei. Cu impedit perpetua efficiendi eum. Ad esse elit voluptaria his, eum modus mollis civibus ei. Usu in nemore impedit, no his nusquam dissentiet definitionem, eos reque audire tritani ea. Quo dicat laoreet et, cibo fierent est id, eum nulla nostro an. An mea fastidii albucius. Labore nonumes singulis per ea, te clita inermis urbanitas ius. Fugit invenire salutatus sed te, sit nonumes quaerendum ut. Est ubique inermis ei, has appareat inciderint ea.",
+                                "fr-CH":"Lorem ipsum dolor sit amet, eu possim epicuri dignissim his. Sanctus democritum eu eum, ad noster omnium oporteat sea, iusto viris alterum cu per. Ei sea voluptaria deseruisse. Pro modus aliquid argumentum at, ludus populo ne his. Tincidunt intellegebat et eos, eu per dicunt vidisse commune. Docendi intellegam ei eum. Odio intellegat ad ius. No sale aliquando usu, an mel nibh efficiendi. Nam in labitur admodum instructior, sit ornatus accusam assentior ei. Cu impedit perpetua efficiendi eum. Ad esse elit voluptaria his, eum modus mollis civibus ei. Usu in nemore impedit, no his nusquam dissentiet definitionem, eos reque audire tritani ea. Quo dicat laoreet et, cibo fierent est id, eum nulla nostro an. An mea fastidii albucius. Labore nonumes singulis per ea, te clita inermis urbanitas ius. Fugit invenire salutatus sed te, sit nonumes quaerendum ut. Est ubique inermis ei, has appareat inciderint ea. (fr-CH)"
                             },
                             "branch":{
                                 "yes":"waterColor",

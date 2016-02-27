@@ -1,6 +1,9 @@
 #questionnaire {
     color:#555;
 }
+#questionnaire .fa.fa-info-circle {
+    color:#007ACE;
+}
 #questionnaire-progress {
     position:relative;
     margin:0 0 0.5em;
@@ -63,9 +66,22 @@
     margin:0;
     padding:0;
 }
+#question-help-modal > .modal-dialog > .modal-content {
+    font-size:1.2em;
+    border-radius:0;
+}
+#question-help-modal > .modal-dialog > .modal-content > .modal-header {
+    background:#EEE;
+}
+#question-help-modal-title {
+    font:400 1.5em Roboto;
+}
 #question-assistance {
     color:#666;
     font-size:1.2em;
+}
+#question-help-modal-toggle {
+    cursor:help;
 }
 #question-answer {
     margin:0.5em 0 0;
@@ -190,7 +206,7 @@
 /**
  * Answer buttons.
  */
-#question-answer-buttons > .btn {
+#questionnaire .btn {
     font-family:Montserrat;
     text-transform:uppercase;
     border-radius:0;

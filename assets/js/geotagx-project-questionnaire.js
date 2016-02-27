@@ -245,27 +245,6 @@
         else
             api_.finish();
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Returns true if the questionnaire is available in the specified locale, false otherwise.
      * @param localeId a locale identifier.
@@ -444,11 +423,13 @@
 
         var hint = question.hint ? question.hint[locale] : null;
         if (hint !== null)
-            $("#question-hint").html(hint);
+            document.getElementById("question-hint").innerHTML = hint;
 
         var help = question.help ? question.help[locale] : null;
-        if (help !== null)
-            $("#question-help").html(help);
+        if (help !== null){
+            document.getElementById("question-help-modal-title").innerHTML = title;
+            document.getElementById("question-help-modal-content").innerHTML = help;
+        }
 
         switch (question.type){
             case "dropdown-list":
