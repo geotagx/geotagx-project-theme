@@ -23,14 +23,6 @@
 ;(function(project, $, undefined){
     "use strict";
 
-    var EVENT_QUESTIONNAIRE_STARTED = "questionnaire-started";
-    var EVENT_QUESTIONNAIRE_COMPLETED = "questionnaire-completed";
-    var EVENT_QUESTIONNAIRE_REWOUND = "questionnaire-rewound";
-    var EVENT_QUESTIONNAIRE_SUBMIT = "questionnaire-submit-analysis";
-    var EVENT_QUESTION_CHANGED = "question-changed";
-    var EVENT_QUESTION_ANSWERED = "question-answered";
-    var EVENT_LOCALE_CHANGED = "locale-changed";
-
     //TODO Document variables.
     var api_ = {};
     var index_ = null;
@@ -45,7 +37,16 @@
     var $rewindButton_ = null;
     var $progressBar_ = null;
     var $percentageComplete_ = null;
-
+    /**
+     * Questionnaire events.
+     */
+    api_.EVENT_START = "questionnaire-start";
+    api_.EVENT_FINISH = "questionnaire-finish";
+    api_.EVENT_REWIND = "questionnaire-rewind";
+    api_.EVENT_SUBMIT = "questionnaire-submit";
+    api_.EVENT_QUESTION_CHANGED = "question-changed";
+    api_.EVENT_QUESTION_ANSWERED = "question-answered";
+    api_.EVENT_LOCALE_CHANGED = "locale-changed";
     /**
      * Initializes the questionnaire from the specified configuration.
      * @param configuration a project's task presenter configuration.
@@ -74,10 +75,10 @@
         // Set up various event handlers.
         $rewindButton_.click(function(){ api_.showPreviousQuestion(); });
         $answerButtons_.click(onQuestionAnswered);
-        $questionnaire_.on(EVENT_QUESTION_ANSWERED, function(_, key, answer){ api_.showNextQuestion(answer); });
+        $questionnaire_.on(api_.EVENT_QUESTION_ANSWERED, function(_, key, answer){ api_.showNextQuestion(answer); });
         $("#dropdown-list-field").change(function(){ document.getElementById("dropdown-list-field-reset").disabled = false; });
         $("#dropdown-list-field-reset").click(function(){ document.getElementById("dropdown-list-field").selectedIndex = 0; this.disabled = true; });
-        $("#questionnaire-submission-button").click(function(){ trigger(EVENT_QUESTIONNAIRE_SUBMIT, [answers_, onSubmissionSuccess, onSubmissionError]); });
+        $("#questionnaire-submission-button").click(function(){ trigger(api_.EVENT_SUBMIT, [answers_, onSubmissionSuccess, onSubmissionError]); });
 
         return true;
     };
@@ -104,7 +105,7 @@
         if (questionnaire)
             questionnaire.dataset.complete = "false";
 
-        trigger(EVENT_QUESTIONNAIRE_STARTED);
+        trigger(api_.EVENT_START);
     };
     /**
      * Ends the questionnaire.
@@ -118,7 +119,7 @@
         if (questionnaire)
             questionnaire.dataset.complete = "true";
 
-        trigger(EVENT_QUESTIONNAIRE_COMPLETED);
+        trigger(api_.EVENT_FINISH);
     };
     /**
      * Returns the number of questions in the questionnaire.
@@ -241,7 +242,7 @@
             progressStack_.pop();
             showQuestion(previousQuestion);
 
-            trigger(EVENT_QUESTIONNAIRE_REWOUND);
+            trigger(api_.EVENT_REWIND);
         }
     };
     /**
@@ -284,7 +285,7 @@
             currentLocaleId_ = localeId;
             updateQuestionContent(api_.getCurrentQuestion(), localeId);
 
-            trigger(EVENT_LOCALE_CHANGED, currentLocaleId_);
+            trigger(api_.EVENT_LOCALE_CHANGED, currentLocaleId_);
         }
     };
     /**
@@ -353,7 +354,7 @@
             // When all required HTML elements have been built, content is added to them.
             updateQuestionContent(question, currentLocaleId_);
 
-            trigger(EVENT_QUESTION_CHANGED);
+            trigger(api_.EVENT_QUESTION_CHANGED);
         }
     }
     /**
@@ -536,7 +537,7 @@
         var errors = validateAnswer(answer, type);
         if (errors === null){
             answers_[question.key] = answer;
-            trigger(EVENT_QUESTION_ANSWERED, [question.key, answer]);
+            trigger(api_.EVENT_QUESTION_ANSWERED, [question.key, answer]);
         }
     }
     /**

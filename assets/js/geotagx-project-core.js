@@ -61,7 +61,10 @@
     }
 
     function onQuestionnaireInitialized(){
-        geotagx.project.questionnaire.on("questionnaire-submit-analysis", onQuestionnaireSubmit);
+        var q = geotagx.project.questionnaire;
+        if (q){
+            q.on(q.EVENT_SUBMIT, onQuestionnaireSubmit);
+        }
         //TODO Complete me.
     }
 
@@ -70,7 +73,7 @@
     }
 
     function onQuestionnaireSubmit(_, results, onSubmissionSuccess, onSubmissionError){
-		onSubmissionSuccess();
+        onSubmissionSuccess();
         //TODO Complete me.
     }
 })(window.geotagx = window.geotagx || {}, jQuery);
