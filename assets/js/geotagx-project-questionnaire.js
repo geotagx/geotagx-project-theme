@@ -32,11 +32,11 @@
     var progressStack_ = null;
     var currentLocaleId_ = null;
     var locales_ = null;
-    var $questionnaire_ = null;
+    var questionnaire_ = null;
     var $answerButtons_ = null;
-    var $rewindButton_ = null;
+    var rewindButton_ = null;
     var $progressBar_ = null;
-    var $percentageComplete_ = null;
+    var percentageComplete_ = null;
     /**
      * Questionnaire events.
      */
@@ -59,11 +59,11 @@
         initialQuestion_ = questions_[0];
         currentLocaleId_ = configuration.locale["default"];
         locales_ = configuration.locale.available;
-        $questionnaire_ = $("#questionnaire");
+        questionnaire_ = document.getElementById("questionnaire");
         $answerButtons_ = $("#question-answer-buttons > .btn");
-        $rewindButton_ = $("#questionnaire-rewind");
+        rewindButton_ = document.getElementById("questionnaire-rewind");
         $progressBar_ = $("#questionnaire-progress-bar");
-        $percentageComplete_ = $("#questionnaire-percentage-complete");
+        percentageComplete_ = document.getElementById("questionnaire-percentage-complete");
 
         // Initialize the set of questionnaire answers.
         answers_ = {};
@@ -73,9 +73,9 @@
         }
 
         // Set up various event handlers.
-        $rewindButton_.click(function(){ api_.showPreviousQuestion(); });
+        $(rewindButton_).click(function(){ api_.showPreviousQuestion(); });
         $answerButtons_.click(onQuestionAnswered);
-        $questionnaire_.on(api_.EVENT_QUESTION_ANSWERED, function(_, key, answer){ api_.showNextQuestion(answer); });
+        $(questionnaire_).on(api_.EVENT_QUESTION_ANSWERED, function(_, key, answer){ api_.showNextQuestion(answer); });
         $("#dropdown-list-field").change(function(){ document.getElementById("dropdown-list-field-reset").disabled = false; });
         $("#dropdown-list-field-reset").click(function(){ document.getElementById("dropdown-list-field").selectedIndex = 0; this.disabled = true; });
         $("#questionnaire-submission-button").click(function(){ trigger(api_.EVENT_SUBMIT, [answers_, onSubmissionSuccess, onSubmissionError]); });
@@ -99,11 +99,8 @@
         if (key && api_.keyExists(key))
             initialQuestion_ = api_.getQuestion(key);
 
+        questionnaire_.dataset.finished = "false";
         showQuestion(initialQuestion_);
-
-        var questionnaire = document.getElementById("questionnaire");
-        if (questionnaire)
-            questionnaire.dataset.finished = "false";
 
         trigger(api_.EVENT_START);
     };
@@ -112,12 +109,9 @@
      */
     api_.finish = function(){
         $progressBar_.css("width", "100%");
-        $percentageComplete_.data("value", 100);
-        $percentageComplete_.html("100%");
+        percentageComplete_.innerHTML = "100%";
 
-        var questionnaire = document.getElementById("questionnaire");
-        if (questionnaire)
-            questionnaire.dataset.finished = "true";
+        questionnaire_.dataset.finished = "true";
 
         trigger(api_.EVENT_FINISH);
     };
@@ -227,9 +221,8 @@
             // Keeping the answer to the current question will create an invalid answer set.
             // However, if the previous question was the last (the questionnaire is 100% complete), there's
             // no need to delete anything, but the questionnaire's "complete" data attribute must be updated.
-            var questionnaire = document.getElementById("questionnaire");
-            if (questionnaire.dataset.finished === "true")
-                questionnaire.dataset.finished = "false";
+            if (questionnaire_.dataset.finished === "true")
+                questionnaire_.dataset.finished = "false";
             else {
                 answers_[api_.getCurrentQuestion().key] = null;
                 progressStack_.pop();
@@ -292,13 +285,13 @@
      * Attaches an event handler for one or more events to the questionnaire.
      */
     api_.on = function(events, handler){
-        $questionnaire_.on(events, handler);
+        $(questionnaire_).on(events, handler);
     };
     /**
      * Removes an event handler.
      */
     api_.off = function(events, handler){
-        $questionnaire_.off(events, handler);
+        $(questionnaire_).off(events, handler);
     };
     /**
      * Displays the specified question.
@@ -325,9 +318,8 @@
             // Update the progress bar (and rewind button state).
             var percentage = Math.max(0, Math.min(100, ((questionIndex / questions_.length) * 100).toFixed(0)));
             $progressBar_.css("width", percentage + "%");
-            $percentageComplete_.data("value", percentage);
-            $percentageComplete_.html(percentage + "%");
-            $rewindButton_.attr("disabled", progressStack_.length < 2);
+            percentageComplete_.innerHTML = percentage + "%";
+            rewindButton_.disabled = progressStack_.length < 2;
 
             // Build the input fields, if need be.
             var parameters = question.parameters;
@@ -566,7 +558,7 @@
      * Triggers the event with the specified name, and with the given parameters.
      */
     function trigger(name, parameters){
-        $questionnaire_.trigger(name, parameters);
+        $(questionnaire_).trigger(name, parameters);
     }
 
     // Expose the frozen (immutable) API.
