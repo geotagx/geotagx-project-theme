@@ -26,6 +26,7 @@
     var EVENT_QUESTIONNAIRE_STARTED = "questionnaire-started";
     var EVENT_QUESTIONNAIRE_COMPLETED = "questionnaire-completed";
     var EVENT_QUESTIONNAIRE_REWOUND = "questionnaire-rewound";
+    var EVENT_QUESTIONNAIRE_SUBMIT = "questionnaire-submit-analysis";
     var EVENT_QUESTION_CHANGED = "question-changed";
     var EVENT_QUESTION_ANSWERED = "question-answered";
     var EVENT_LOCALE_CHANGED = "locale-changed";
@@ -76,6 +77,7 @@
         $questionnaire_.on(EVENT_QUESTION_ANSWERED, function(_, key, answer){ api_.showNextQuestion(answer); });
         $("#dropdown-list-field").change(function(){ document.getElementById("dropdown-list-field-reset").disabled = false; });
         $("#dropdown-list-field-reset").click(function(){ document.getElementById("dropdown-list-field").selectedIndex = 0; this.disabled = true; });
+        $("#questionnaire-submission-button").click(function(){ trigger(EVENT_QUESTIONNAIRE_SUBMIT, [answers_, onSubmissionSuccess, onSubmissionError]); });
 
         return true;
     };
@@ -98,6 +100,10 @@
 
         showQuestion(initialQuestion_);
 
+        var questionnaire = document.getElementById("questionnaire");
+        if (questionnaire)
+            questionnaire.dataset.complete = "false";
+
         trigger(EVENT_QUESTIONNAIRE_STARTED);
     };
     /**
@@ -111,9 +117,6 @@
         var questionnaire = document.getElementById("questionnaire");
         if (questionnaire)
             questionnaire.dataset.complete = "true";
-
-        // For debug purposes.
-        document.getElementById("questionnaire-submission-form").innerHTML = JSON.stringify(answers_, 4, "\t");
 
         trigger(EVENT_QUESTIONNAIRE_COMPLETED);
     };
@@ -535,6 +538,18 @@
             answers_[question.key] = answer;
             trigger(EVENT_QUESTION_ANSWERED, [question.key, answer]);
         }
+    }
+    /**
+     *
+     */
+    function onSubmissionSuccess(){
+        console.error("FIXME");
+    }
+    /**
+     *
+     */
+    function onSubmissionError(){
+        console.error("FIXME");
     }
     /**
      * Validates the specified answer.

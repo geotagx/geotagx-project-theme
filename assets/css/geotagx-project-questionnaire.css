@@ -79,29 +79,33 @@
     font-weight:500;
 }
 #questionnaire-submission-form {
-
-
+    width:100%;
+    padding:0.5em;
 }
 #questionnaire[data-complete="false"] #questionnaire-submission-form {
     display:none;
 }
-#questionnaire[data-complete="true"] #questionnaire-submission-form {
-    display:inline-block;
+#questionnaire-submission-button {
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#questionnaire-submission-message {
+    font-weight:500;
+    font-size:0.9em;
+    font-style:italic;
+    margin:0.25em 0 0;
+}
+#questionnaire-submission-message > p {
+    display:none;
+    margin:0;
+}
+#questionnaire-submission-message > p.on-success {
+    color:#090;
+}
+#questionnaire-submission-message > p.on-error {
+    color:#F00;
+}
+#questionnaire-submission-thanks {
+    margin:0.5em 0 0;
+}
 #question {
 }
 #questionnaire[data-complete="true"] #question {

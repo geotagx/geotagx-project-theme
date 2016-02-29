@@ -61,10 +61,16 @@
     }
 
     function onQuestionnaireInitialized(){
+        geotagx.project.questionnaire.on("questionnaire-submit-analysis", onQuestionnaireSubmit);
         //TODO Complete me.
     }
 
     function onQuestionnaireError(){
+        //TODO Complete me.
+    }
+
+    function onQuestionnaireSubmit(_, results, onSubmissionSuccess, onSubmissionError){
+		onSubmissionSuccess();
         //TODO Complete me.
     }
 })(window.geotagx = window.geotagx || {}, jQuery);
