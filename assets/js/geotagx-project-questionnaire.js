@@ -103,7 +103,7 @@
 
         var questionnaire = document.getElementById("questionnaire");
         if (questionnaire)
-            questionnaire.dataset.complete = "false";
+            questionnaire.dataset.finished = "false";
 
         trigger(api_.EVENT_START);
     };
@@ -117,7 +117,7 @@
 
         var questionnaire = document.getElementById("questionnaire");
         if (questionnaire)
-            questionnaire.dataset.complete = "true";
+            questionnaire.dataset.finished = "true";
 
         trigger(api_.EVENT_FINISH);
     };
@@ -228,8 +228,8 @@
             // However, if the previous question was the last (the questionnaire is 100% complete), there's
             // no need to delete anything, but the questionnaire's "complete" data attribute must be updated.
             var questionnaire = document.getElementById("questionnaire");
-            if (questionnaire.dataset.complete === "true")
-                questionnaire.dataset.complete = "false";
+            if (questionnaire.dataset.finished === "true")
+                questionnaire.dataset.finished = "false";
             else {
                 answers_[api_.getCurrentQuestion().key] = null;
                 progressStack_.pop();

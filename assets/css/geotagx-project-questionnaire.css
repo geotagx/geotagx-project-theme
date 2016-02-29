@@ -10,10 +10,10 @@
     margin:0 0 0.25em 0;
     padding:0;
 }
-#questionnaire[data-complete="false"] #questionnaire-header {
+#questionnaire[data-finished="false"] #questionnaire-header {
     background:none;
 }
-#questionnaire[data-complete="true"] #questionnaire-header {
+#questionnaire[data-finished="true"] #questionnaire-header {
     background:#EEE;
 }
 #questionnaire-progress {
@@ -22,7 +22,7 @@
     padding:0;
     height:2.7em;
 }
-#questionnaire[data-complete="true"] #questionnaire-progress {
+#questionnaire[data-finished="true"] #questionnaire-progress {
     background:#CCC;
 }
 #questionnaire-rewind {
@@ -55,7 +55,7 @@
     right:0;
     height:1.5em;
 }
-#questionnaire[data-complete="false"] #questionnaire-progress-bar-container {
+#questionnaire[data-finished="false"] #questionnaire-progress-bar-container {
     background:#EEE;
 }
 #questionnaire-progress-bar {
@@ -82,7 +82,7 @@
     width:100%;
     padding:0.5em;
 }
-#questionnaire[data-complete="false"] #questionnaire-submission-form {
+#questionnaire[data-finished="false"] #questionnaire-submission-form {
     display:none;
 }
 #questionnaire-submission-button {
@@ -108,7 +108,7 @@
 }
 #question {
 }
-#questionnaire[data-complete="true"] #question {
+#questionnaire[data-finished="true"] #question {
     display:none;
 }
 #question-title {
