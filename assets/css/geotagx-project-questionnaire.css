@@ -1,18 +1,37 @@
 #questionnaire {
     color:#555;
+    font:400 1em Roboto;
 }
 #questionnaire .fa.fa-info-circle {
     color:#007ACE;
 }
+#questionnaire-header {
+    width:100%;
+    margin:0 0 0.25em 0;
+    padding:0;
+}
+#questionnaire[data-complete="false"] #questionnaire-header {
+    background:none;
+}
+#questionnaire[data-complete="true"] #questionnaire-header {
+    background:#EEE;
+}
 #questionnaire-progress {
     position:relative;
-    margin:0 0 0.5em;
+    margin:0;
+    padding:0;
+    height:2.7em;
+}
+#questionnaire[data-complete="true"] #questionnaire-progress {
+    background:#CCC;
 }
 #questionnaire-rewind {
-    width:2em;
-    height:2em;
+    position:relative;
+    width:2.7em;
+    height:2.7em;
+    margin:0;
+    padding:0;
     border:none;
-    border-radius:50em;
     outline:none;
     color:#FFF;
     background:#3BAFDA;
@@ -21,21 +40,22 @@
     background:#4FC1E9;
 }
 #questionnaire-rewind:disabled {
-    background:#CCC !important;
+    background:#CCC;
     cursor:not-allowed;
 }
-#questionnaire-rewind > i {
+#questionnaire-rewind > i.fa {
     position:absolute;
-    top:0.5em;
-    left:0.4em;
+    top:0.65em;
+    left:0.45em;
 }
 #questionnaire-progress-bar-container {
     position:absolute;
-    z-index:1;
-    top:0.25em;
-    left:2.5em;
+    top:0.6em;
+    left:3.2em;
     right:0;
     height:1.5em;
+}
+#questionnaire[data-complete="false"] #questionnaire-progress-bar-container {
     background:#EEE;
 }
 #questionnaire-progress-bar {
@@ -55,14 +75,41 @@
     top:0;
     right:0;
     bottom:0;
-    margin:0.25em 0.25em 0 0;
-    font:500 1em Roboto;
+    margin:0.2em 0.25em 0 0;
+    font-weight:500;
 }
+#questionnaire-submission-form {
+
+
+}
+#questionnaire[data-complete="false"] #questionnaire-submission-form {
+    display:none;
+}
+#questionnaire[data-complete="true"] #questionnaire-submission-form {
+    display:inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #question {
-    font:400 1em Roboto;
+}
+#questionnaire[data-complete="true"] #question {
+    display:none;
 }
 #question-title {
-    font:300 2em Roboto;
+    font-weight:300;
+    font-size:2em;
     margin:0;
     padding:0;
 }
@@ -74,7 +121,7 @@
     background:#EEE;
 }
 #question-help-modal-title {
-    font:400 1.5em Roboto;
+    font-size:1.5em;
 }
 #question-assistance {
     color:#666;

@@ -77,9 +77,6 @@
         $("#dropdown-list-field").change(function(){ document.getElementById("dropdown-list-field-reset").disabled = false; });
         $("#dropdown-list-field-reset").click(function(){ document.getElementById("dropdown-list-field").selectedIndex = 0; this.disabled = true; });
 
-
-        api_.on(EVENT_QUESTIONNAIRE_COMPLETED, function(){ console.log(answers_); }); // For debug purposes.
-
         return true;
     };
     /**
@@ -110,6 +107,13 @@
         $progressBar_.css("width", "100%");
         $percentageComplete_.data("value", 100);
         $percentageComplete_.html("100%");
+
+        var questionnaire = document.getElementById("questionnaire");
+        if (questionnaire)
+            questionnaire.dataset.complete = "true";
+
+        // For debug purposes.
+        document.getElementById("questionnaire-submission-form").innerHTML = JSON.stringify(answers_, 4, "\t");
 
         trigger(EVENT_QUESTIONNAIRE_COMPLETED);
     };
@@ -218,8 +222,11 @@
             // since the questionnaire's flow may change based on the answer to the previous question.
             // Keeping the answer to the current question will create an invalid answer set.
             // However, if the previous question was the last (the questionnaire is 100% complete), there's
-            // no need to delete anything.
-            if ($percentageComplete_.data("value") !== 100){
+            // no need to delete anything, but the questionnaire's "complete" data attribute must be updated.
+            var questionnaire = document.getElementById("questionnaire");
+            if (questionnaire.dataset.complete === "true")
+                questionnaire.dataset.complete = "false";
+            else {
                 answers_[api_.getCurrentQuestion().key] = null;
                 progressStack_.pop();
             }

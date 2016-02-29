@@ -21,14 +21,20 @@
             </div>
             <div class="col-xs-12 col-lg-10 col-lg-offset-1">
                 <div class="row">
-                    <div id="questionnaire" class="col-xs-5">
-                        <div id="questionnaire-progress">
-                            <button id="questionnaire-rewind" disabled><i class="fa fa-backward x-fa-caret-left"></i></button>
-                            <div id="questionnaire-progress-bar-container">
-                                <div id="questionnaire-progress-bar"></div>
-                                <div id="questionnaire-percentage-complete"></div>
-                            </div>
-                        </div>
+                    <div id="questionnaire" class="col-xs-5" data-complete="false">
+                        <header id="questionnaire-header">
+                            <section id="questionnaire-progress">
+                                <button id="questionnaire-rewind" disabled><i class="fa fa-lg fa-backward"></i></button>
+                                <div id="questionnaire-progress-bar-container">
+                                    <div id="questionnaire-progress-bar"></div>
+                                    <div id="questionnaire-percentage-complete"></div>
+                                </div>
+                            </section>
+                            <section id="questionnaire-submission-form">
+
+
+                            </section>
+                        </header>
                         <div id="question" data-type data-key>
                             <section id="question-information">
                                 <header><h1 id="question-title"></h1></header>
