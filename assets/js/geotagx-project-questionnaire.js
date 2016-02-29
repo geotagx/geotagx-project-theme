@@ -569,6 +569,6 @@
         $questionnaire_.trigger(name, parameters);
     }
 
-    // Expose the API.
-    project.questionnaire = api_;
+    // Expose the frozen (immutable) API.
+    project.questionnaire = Object.freeze(api_);
 })(window.geotagx.project, jQuery);
