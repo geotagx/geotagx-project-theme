@@ -33,6 +33,7 @@
     var currentLocaleId_ = null;
     var locales_ = null;
     var questionnaire_ = null;
+    var questionnaireProgress_ = null;
     var $answerButtons_ = null;
     var rewindButton_ = null;
     var $progressBar_ = null;
@@ -60,6 +61,7 @@
         currentLocaleId_ = configuration.locale["default"];
         locales_ = configuration.locale.available;
         questionnaire_ = document.getElementById("questionnaire");
+        questionnaireProgress_ = document.getElementById("questionnaire-progress");
         $answerButtons_ = $("#question-answer-buttons > .btn");
         rewindButton_ = document.getElementById("questionnaire-rewind");
         $progressBar_ = $("#questionnaire-progress-bar");
@@ -108,7 +110,7 @@
      * Ends the questionnaire.
      */
     api_.finish = function(){
-        $progressBar_.css("width", "100%");
+        $progressBar_.css("width", (questionnaireProgress_.offsetWidth - rewindButton_.offsetWidth) + "px");
         percentageComplete_.innerHTML = "100%";
 
         questionnaire_.dataset.finished = "true";
@@ -317,7 +319,8 @@
 
             // Update the progress bar (and rewind button state).
             var percentage = Math.max(0, Math.min(100, ((questionIndex / questions_.length) * 100).toFixed(0)));
-            $progressBar_.css("width", percentage + "%");
+            var maxWidth = questionnaireProgress_.offsetWidth - rewindButton_.offsetWidth - 100;
+            $progressBar_.css("width", Math.round((percentage * maxWidth) / 100) + "px");
             percentageComplete_.innerHTML = percentage + "%";
             rewindButton_.disabled = progressStack_.length < 2;
 

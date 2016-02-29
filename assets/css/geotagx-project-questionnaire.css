@@ -20,15 +20,13 @@
     position:relative;
     margin:0;
     padding:0;
-    height:2.7em;
-}
-#questionnaire[data-finished="true"] #questionnaire-progress {
-    background:#CCC;
+    height:2.5em;
+    background:#EEE;
 }
 #questionnaire-rewind {
     position:relative;
-    width:2.7em;
-    height:2.7em;
+    width:2.5em;
+    height:2.5em;
     margin:0;
     padding:0;
     border:none;
@@ -40,28 +38,30 @@
     background:#4FC1E9;
 }
 #questionnaire-rewind:disabled {
+    color:#DDD;
     background:#CCC;
     cursor:not-allowed;
 }
 #questionnaire-rewind > i.fa {
     position:absolute;
-    top:0.65em;
-    left:0.45em;
-}
-#questionnaire-progress-bar-container {
-    position:absolute;
     top:0.6em;
-    left:3.2em;
-    right:0;
-    height:1.5em;
+    left:0.4em;
 }
-#questionnaire[data-finished="false"] #questionnaire-progress-bar-container {
-    background:#EEE;
+#questionnaire-percentage-complete {
+    position:absolute;
+    z-index:2;
+    top:0.15em;
+    left:2em;
+    bottom:0;
+    font-weight:400;
+    font-size:1.5em;
 }
 #questionnaire-progress-bar {
-    position:relative;
-    overflow:hidden;
-    height:100%;
+    position:absolute;
+    z-index:1;
+    top:0;
+    left:2.5em;
+    bottom:0;
     width:0;
     background:#CCC;
     transition:width 0.3s ease-in-out;
@@ -69,14 +69,6 @@
     -ms-transition:width 0.3s ease-in-out;
     -moz-transition:width 0.3s ease-in-out;
     -webkit-transition:width 0.3s ease-in-out;
-}
-#questionnaire-percentage-complete {
-    position:absolute;
-    top:0;
-    right:0;
-    bottom:0;
-    margin:0.2em 0.25em 0 0;
-    font-weight:500;
 }
 #questionnaire-submission-form {
     width:100%;
