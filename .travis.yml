@@ -5,3 +5,6 @@ sudo: false
 before_install: npm install grunt grunt-cli
 install: npm install
 after_script: grunt bundle
+branches:
+    only:
+        - master
