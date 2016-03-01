@@ -73,7 +73,13 @@
     }
 
     function onQuestionnaireSubmit(_, results, onSubmissionSuccess, onSubmissionError){
-        onSubmissionSuccess();
         //TODO Complete me.
+        // Emulate a submission for debug purposes.
+        setTimeout(function(){
+            onSubmissionSuccess();
+            setTimeout(function(){
+                geotagx.project.questionnaire.start();
+            }, 1500);
+        }, 1000);
     }
 })(window.geotagx = window.geotagx || {}, jQuery);

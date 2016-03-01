@@ -38,6 +38,9 @@
     var rewindButton_ = null;
     var $progressBar_ = null;
     var percentageComplete_ = null;
+    var statusIcons_ = null;
+    var submitButton_ = null;
+    var submitMessage_ = null;
     /**
      * Questionnaire events.
      */
@@ -66,6 +69,13 @@
         rewindButton_ = document.getElementById("questionnaire-rewind");
         $progressBar_ = $("#questionnaire-progress-bar");
         percentageComplete_ = document.getElementById("questionnaire-percentage-complete");
+        statusIcons_ = {
+            "busy":document.getElementById("questionnaire-status-busy"),
+            "success":document.getElementById("questionnaire-status-success"),
+            "error":document.getElementById("questionnaire-status-error")
+        };
+        submitButton_ = document.getElementById("questionnaire-submission-button");
+        submitMessage_ = document.getElementById("questionnaire-submission-message");
 
         // Initialize the set of questionnaire answers.
         answers_ = {};
@@ -80,7 +90,7 @@
         $(questionnaire_).on(api_.EVENT_QUESTION_ANSWERED, function(_, key, answer){ api_.showNextQuestion(answer); });
         $("#dropdown-list-field").change(function(){ document.getElementById("dropdown-list-field-reset").disabled = false; });
         $("#dropdown-list-field-reset").click(function(){ document.getElementById("dropdown-list-field").selectedIndex = 0; this.disabled = true; });
-        $("#questionnaire-submission-button").click(function(){ trigger(api_.EVENT_SUBMIT, [answers_, onSubmissionSuccess, onSubmissionError]); });
+        $(submitButton_).click(onSubmitAnswers);
 
         return true;
     };
@@ -98,10 +108,18 @@
                 answers_[k] = null;
         }
 
+        // Reset the questionnaire's status and hide all status icons and messages.
+        questionnaire_.dataset.finished = "false";
+        for (var statusIconsKey in statusIcons_){
+            if (statusIcons_.hasOwnProperty(statusIconsKey))
+                statusIcons_[statusIconsKey].style.display = "none";
+        }
+        submitMessage_.display = "none";
+
+        // If the key was specified, find the initial question.
         if (key && api_.keyExists(key))
             initialQuestion_ = api_.getQuestion(key);
 
-        questionnaire_.dataset.finished = "false";
         showQuestion(initialQuestion_);
 
         trigger(api_.EVENT_START);
@@ -114,6 +132,7 @@
         percentageComplete_.innerHTML = "100%";
 
         questionnaire_.dataset.finished = "true";
+        submitButton_.disabled = false;
 
         trigger(api_.EVENT_FINISH);
     };
@@ -538,14 +557,47 @@
     /**
      *
      */
-    function onSubmissionSuccess(){
-        console.error("FIXME");
+    function onSubmitAnswers(event){
+        // If there was an error submitting prior to this call, hide the error status icon and message.
+        statusIcons_.error.style.display = "none";
+
+        // Show the busy icon.
+        $(statusIcons_.busy).fadeIn(150, function(){ statusIcons_.busy.style.display = "inline-block"; });
+
+        // Disable the submit button until we get a response from the server (which could be a successful
+        // submission or an error). See onSubmissionSuccess and onSubmissionError for more info.
+        event.currentTarget.disabled = true;
+
+        trigger(api_.EVENT_SUBMIT, [answers_, onSubmissionSuccess, onSubmissionError]);
     }
     /**
-     *
+     * Updates the status icons when a submission is successful.
      */
-    function onSubmissionError(){
-        console.error("FIXME");
+    function onSubmissionSuccess(){
+        $(statusIcons_.busy).fadeOut(150, function(){
+            statusIcons_.busy.style.display = "none";
+            $(statusIcons_.success).fadeIn(150);
+        });
+    }
+    /**
+     * Updates the status icons and submit button when a submission fails.
+     * @param message an error message.
+     */
+    function onSubmissionError(message){
+        $(statusIcons_.busy).fadeOut(150, function(){
+            statusIcons_.busy.style.display = "none";
+            $(statusIcons_.error).fadeIn(150, function(){
+                // Display the error message, if one was given.
+                message = $.trim(message);
+                if (message.length > 0){
+                    submitMessage_.innerHTML = message;
+                    submitMessage_.dataset.severity = "error";
+                    $(submitMessage_).fadeIn(300);
+                }
+                // Re-enable the submit button so the user can retry submitting their analysis.
+                submitButton_.disabled = false;
+            });
+        });
     }
     /**
      * Validates the specified answer.

@@ -70,6 +70,30 @@
     -moz-transition:width 0.3s ease-in-out;
     -webkit-transition:width 0.3s ease-in-out;
 }
+#questionnaire-status {
+    position:absolute;
+    display:inline;
+    z-index:2;
+    top:0;
+    right:1.05em;
+    margin:0;
+    padding:0 0.5em 0 0;
+    height:2.5em;
+}
+#questionnaire-status > .status-icon {
+    display:none;
+    font-size:2em;
+    line-height:1.3em;
+}
+#questionnaire-status-busy {
+    color:#EEE;
+}
+#questionnaire-status-success {
+    color:#0B0;
+}
+#questionnaire-status-error {
+    color:#B00;
+}
 #questionnaire-submission-form {
     width:100%;
     padding:0.5em;
@@ -80,20 +104,17 @@
 #questionnaire-submission-button {
 }
 #questionnaire-submission-message {
+    display:none;
     font-weight:500;
     font-size:0.9em;
     font-style:italic;
-    margin:0.25em 0 0;
+    margin:0.75em 0 2em;
 }
-#questionnaire-submission-message > p {
-    display:none;
-    margin:0;
+#questionnaire-submission-message[data-severity="error"] {
+    color:#B00;
 }
-#questionnaire-submission-message > p.on-success {
-    color:#090;
-}
-#questionnaire-submission-message > p.on-error {
-    color:#F00;
+#questionnaire-submission-message[data-severity="success"] {
+    color:#0B0;
 }
 #questionnaire-submission-thanks {
     margin:0.5em 0 0;
