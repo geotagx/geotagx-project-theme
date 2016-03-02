@@ -1,26 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Project interface demo</title>
+    <title>Project Interface Mockup</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic|Raleway">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Montserrat|Open+Sans:300,400,600,700,800,900|Patua+One|Martel+Sans:400,700,800,900|Noto+Sans">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic|Raleway|Montserrat">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/css/geotagx-project-core.css">
     <link rel="stylesheet" href="../assets/css/geotagx-project-questionnaire.css">
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-
-
-
-
-        </div>
-        <div class="row" style="margin-top:1em">
-            <div id="loading-screen">
-            </div>
             <div class="col-xs-12 col-lg-10 col-lg-offset-1">
                 <div class="row">
+                    <div id="breadcrumbs" class="col-xs-12" style="margin-bottom:0.5em;">
+                        <a href="#">Projects</a>&nbsp;&middot;&nbsp;<a href="#">Mockups</a>&nbsp;&middot;&nbsp;<a href="#">Project Interface Mockup</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:1em">
+            <div id="project" class="col-xs-12 col-lg-10 col-lg-offset-1">
+                <div id="project-header" class="row">
+                    <div id="project-information" class="col-xs-12">
+                        <header>
+                            <div class="row">
+                                <div class="col-xs-9">
+                                    <h1 id="project-name"><span class="value"></span><small><span data-i18n="contribute">CONTRIBUTE</span></small></h1>
+                                    <p id="project-description"></p>
+                                    <div id="project-locale">
+                                        <label for="project-locale-selector"><i class="fa fa-lg fa-language"></i></label><select id="project-locale-selector"></select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div id="project-analyses-completed"><span class="count"><span class="completed"></span>/<span class="total"></span></span><br><span data-i18n="analyses-completed">Analyses Completed</span></div>
+                                </div>
+                            </div>
+                            <hr>
+                        </header>
+                    </div>
+                </div>
+                <div id="project-body" class="row">
                     <div id="questionnaire" class="col-xs-5" data-finished="false">
                         <header id="questionnaire-header">
                             <section id="questionnaire-progress">
