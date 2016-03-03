@@ -2,13 +2,7 @@
     color:#555;
     font:400 1em Roboto;
 }
-#questionnaire .fa.fa-info-circle {
-    color:#007ACE;
-}
 #questionnaire-header {
-    width:100%;
-    margin:0 0 0.25em 0;
-    padding:0;
 }
 #questionnaire[data-finished="false"] #questionnaire-header {
     background:none;
@@ -189,8 +183,7 @@
     max-width:100%;
     margin:0;
     padding:0.5em;
-    font-weight:400;
-    font-family:Montserrat;
+    font-weight:700;
     border:1px solid #DDD;
     background:#EEE;
 }

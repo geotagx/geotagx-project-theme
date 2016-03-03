@@ -25,14 +25,11 @@
     font-weight:400;
     font-size:0.9em;
 }
-#project-locale > label {
-    margin:0 0.5em 0 0;
-}
 #project-locale-selector {
     background:#EEE;
     border:none;
-    margin:0;
-    padding:0.25em 0 0.25em 0.25em;
+    margin:0 0.5em;
+    padding:0.25em;
 }
 #project-analyses-completed {
     display:none;
@@ -49,4 +46,18 @@
 #project-analyses-completed > span.count > span.completed,
 #project-analyses-completed > span.count > span.total {
     margin:0 0.1em;
+}
+/**
+ * Icon colors.
+ */
+#project .fa.fa-info-circle {
+    color:#007ACE;
+}
+/**
+ * Header style for the questionnaire and subject sections.
+ */
+#project .section-header {
+    width:100%;
+    margin:0 0 1em 0;
+    padding:0;
 }
