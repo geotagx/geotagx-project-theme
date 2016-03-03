@@ -144,137 +144,150 @@
     <script src="../assets/js/geotagx-project-core.js" defer></script>
     <script src="../assets/js/geotagx-project-questionnaire.js" defer></script>
     <script>
-        var configurations = {
-            "task-presenter":{
-                "locale":{
-                    "default":"en-US",
-                    "available":{
-                        "en-US":"English (American)",
-                        "fr-CH":"Français (Suisse)"
-                    }
+    "use strict";
+    var __configuration__ = {
+        "project":{
+            "shortName":"project-interface-mockup",
+            "locale":{
+                "default":"en-US",
+                "available":{
+                    "en-US":"English (American)",
+                    "fr-CH":"Français (Suisse)"
+                }
+            },
+            "name":"Project Interface Mockup",
+            "description":{
+                "en-US":"This is a short reminder of why your contribution matters.",
+                "fr-CH":"This is a short reminder of why your contribution matters. (fr-CH)"
+            },
+            "repository":{
+                "type":"git",
+                "url":"https://github.com/geotag/geotagx-project-interface-mockup"
+            }
+        },
+        "taskPresenter":{
+            "why":{
+                "en-US":"This is a simple project that shows you how to create a multilingual questionnaire.",
+                "fr-CH":"Ceci est un projet qui a pour but de vous montrer comment créer une questionnaire multilingue."
+            },
+            "subject":{
+                "type":"image"
+            },
+            "questionnaire":{
+                "index":{
+                    "isWaterVisible":0,
+                    "waterColor":1,
+                    "smallPoolsOfWaterVisible":2,
+                    "smallPoolsOfWaterNearShelters":3,
+                    "largeBodyOfWaterVisible":4,
+                    "name":5
                 },
-                "why":{
-                    "en-US":"This is a simple project that shows you how to create a multilingual questionnaire.",
-                    "fr-CH":"Ceci est un projet qui a pour but de vous montrer comment créer une questionnaire multilingue."
-                },
-                "subject":{
-                    "type":"image"
-                },
-                "questionnaire":{
-                    "index":{
-                        "isWaterVisible":0,
-                        "waterColor":1,
-                        "smallPoolsOfWaterVisible":2,
-                        "smallPoolsOfWaterNearShelters":3,
-                        "largeBodyOfWaterVisible":4,
-                        "name":5
+                "questions":[
+                    {
+                        "key":"isWaterVisible",
+                        "type":"binary",
+                        "title":{
+                            "en-US":"Can you see any water in the photo?",
+                            "fr-CH":"Can you see any water in the photo? (fr-CH)"
+                        },
+                        "hint":{
+                            "en-US":"More specifically, can you see small water bodies like puddles, or large ones such as rivers or lakes?",
+                            "fr-CH":"More specifically, can you see small water bodies like puddles, or large ones such as rivers or lakes? (fr-CH)"
+                        },
+                        "help":{
+                            "en-US":"Lorem ipsum dolor sit amet, eu possim epicuri dignissim his. Sanctus democritum eu eum, ad noster omnium oporteat sea, iusto viris alterum cu per. Ei sea voluptaria deseruisse. Pro modus aliquid argumentum at, ludus populo ne his. Tincidunt intellegebat et eos, eu per dicunt vidisse commune. Docendi intellegam ei eum. Odio intellegat ad ius. No sale aliquando usu, an mel nibh efficiendi. Nam in labitur admodum instructior, sit ornatus accusam assentior ei. Cu impedit perpetua efficiendi eum. Ad esse elit voluptaria his, eum modus mollis civibus ei. Usu in nemore impedit, no his nusquam dissentiet definitionem, eos reque audire tritani ea. Quo dicat laoreet et, cibo fierent est id, eum nulla nostro an. An mea fastidii albucius. Labore nonumes singulis per ea, te clita inermis urbanitas ius. Fugit invenire salutatus sed te, sit nonumes quaerendum ut. Est ubique inermis ei, has appareat inciderint ea.",
+                            "fr-CH":"Lorem ipsum dolor sit amet, eu possim epicuri dignissim his. Sanctus democritum eu eum, ad noster omnium oporteat sea, iusto viris alterum cu per. Ei sea voluptaria deseruisse. Pro modus aliquid argumentum at, ludus populo ne his. Tincidunt intellegebat et eos, eu per dicunt vidisse commune. Docendi intellegam ei eum. Odio intellegat ad ius. No sale aliquando usu, an mel nibh efficiendi. Nam in labitur admodum instructior, sit ornatus accusam assentior ei. Cu impedit perpetua efficiendi eum. Ad esse elit voluptaria his, eum modus mollis civibus ei. Usu in nemore impedit, no his nusquam dissentiet definitionem, eos reque audire tritani ea. Quo dicat laoreet et, cibo fierent est id, eum nulla nostro an. An mea fastidii albucius. Labore nonumes singulis per ea, te clita inermis urbanitas ius. Fugit invenire salutatus sed te, sit nonumes quaerendum ut. Est ubique inermis ei, has appareat inciderint ea. (fr-CH)"
+                        },
+                        "branch":{
+                            "yes":"waterColor",
+                            "no":"name"
+                        }
                     },
-                    "questions":[
-                        {
-                            "key":"isWaterVisible",
-                            "type":"binary",
-                            "title":{
-                                "en-US":"Can you see any water in the photo?",
-                                "fr-CH":"Can you see any water in the photo? (fr-CH)"
-                            },
-                            "hint":{
-                                "en-US":"More specifically, can you see small water bodies like puddles, or large ones such as rivers or lakes?",
-                                "fr-CH":"More specifically, can you see small water bodies like puddles, or large ones such as rivers or lakes? (fr-CH)"
-                            },
-                            "help":{
-                                "en-US":"Lorem ipsum dolor sit amet, eu possim epicuri dignissim his. Sanctus democritum eu eum, ad noster omnium oporteat sea, iusto viris alterum cu per. Ei sea voluptaria deseruisse. Pro modus aliquid argumentum at, ludus populo ne his. Tincidunt intellegebat et eos, eu per dicunt vidisse commune. Docendi intellegam ei eum. Odio intellegat ad ius. No sale aliquando usu, an mel nibh efficiendi. Nam in labitur admodum instructior, sit ornatus accusam assentior ei. Cu impedit perpetua efficiendi eum. Ad esse elit voluptaria his, eum modus mollis civibus ei. Usu in nemore impedit, no his nusquam dissentiet definitionem, eos reque audire tritani ea. Quo dicat laoreet et, cibo fierent est id, eum nulla nostro an. An mea fastidii albucius. Labore nonumes singulis per ea, te clita inermis urbanitas ius. Fugit invenire salutatus sed te, sit nonumes quaerendum ut. Est ubique inermis ei, has appareat inciderint ea.",
-                                "fr-CH":"Lorem ipsum dolor sit amet, eu possim epicuri dignissim his. Sanctus democritum eu eum, ad noster omnium oporteat sea, iusto viris alterum cu per. Ei sea voluptaria deseruisse. Pro modus aliquid argumentum at, ludus populo ne his. Tincidunt intellegebat et eos, eu per dicunt vidisse commune. Docendi intellegam ei eum. Odio intellegat ad ius. No sale aliquando usu, an mel nibh efficiendi. Nam in labitur admodum instructior, sit ornatus accusam assentior ei. Cu impedit perpetua efficiendi eum. Ad esse elit voluptaria his, eum modus mollis civibus ei. Usu in nemore impedit, no his nusquam dissentiet definitionem, eos reque audire tritani ea. Quo dicat laoreet et, cibo fierent est id, eum nulla nostro an. An mea fastidii albucius. Labore nonumes singulis per ea, te clita inermis urbanitas ius. Fugit invenire salutatus sed te, sit nonumes quaerendum ut. Est ubique inermis ei, has appareat inciderint ea. (fr-CH)"
-                            },
-                            "branch":{
-                                "yes":"waterColor",
-                                "no":"name"
-                            }
+                    {
+                        "key":"waterColor",
+                        "type":"select",
+                        "title":{
+                            "en-US":"What color is the water?",
+                            "fr-CH":"Quelle est la couleur de l'eau?"
                         },
-                        {
-                            "key":"waterColor",
-                            "type":"select",
-                            "title":{
-                                "en-US":"What color is the water?",
-                                "fr-CH":"Quelle est la couleur de l'eau?"
-                            },
-                            "parameters":{
-                                "options":[
-                                    {
-                                        "label":{
-                                            "en-US":"Red",
-                                            "fr-CH":"Rouge"
-                                        },
-                                        "value":"Red"
+                        "parameters":{
+                            "options":[
+                                {
+                                    "label":{
+                                        "en-US":"Red",
+                                        "fr-CH":"Rouge"
                                     },
-                                    {
-                                        "label":{
-                                            "en-US":"Aqua Blue",
-                                            "fr-CH":"Bleu Aquatique"
-                                        },
-                                        "value":"AquaBlue"
+                                    "value":"Red"
+                                },
+                                {
+                                    "label":{
+                                        "en-US":"Aqua Blue",
+                                        "fr-CH":"Bleu Aquatique"
                                     },
-                                    {
-                                        "label":{
-                                            "en-US":"Green",
-                                            "fr-CH":"Verte"
-                                        },
-                                        "value":"Green"
+                                    "value":"AquaBlue"
+                                },
+                                {
+                                    "label":{
+                                        "en-US":"Green",
+                                        "fr-CH":"Verte"
                                     },
-                                    {
-                                        "label":{
-                                            "en-US":"Orange",
-                                            "fr-CH":"Orange"
-                                        },
-                                        "value":"Orange"
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "key":"smallPoolsOfWaterVisible",
-                            "type":"binary",
-                            "title":{
-                                "en-US":"Can you see small pools of water?",
-                                "fr-CH":"Can you see small pools of water? (fr-CH)"
-                            },
-                            "branch":{
-                                "no":"largeBodyOfWaterVisible"
-                            }
-                        },
-                        {
-                            "key":"smallPoolsOfWaterNearShelters",
-                            "type":"binary",
-                            "title":{
-                                "en-US":"Are these small pools of water near human shelters or a settlement?",
-                                "fr-CH":"Are these small pools of water near human shelters or a settlement? (fr-CH)"
-                            },
-                            "branch":"name"
-                        },
-                        {
-                            "key":"largeBodyOfWaterVisible",
-                            "type":"binary",
-                            "title":{
-                                "en-US":"Can you see a large body of water?",
-                                "fr-CH":"Can you see a large body of water? (fr-CH)"
-                            }
-                        },
-                        {
-                            "key":"name",
-                            "type":"text",
-                            "title":{
-                                "en-US":"Please enter your name",
-                                "fr-CH":"Please enter your name (fr-CH)"
-                            },
-                            "parameters":{
-                                "placeholder":{
-                                    "en-US":"A fake name will do",
-                                    "fr-CH":"A fake name will do (fr-CH)"
+                                    "value":"Green"
+                                },
+                                {
+                                    "label":{
+                                        "en-US":"Orange",
+                                        "fr-CH":"Orange"
+                                    },
+                                    "value":"Orange"
                                 }
+                            ]
+                        }
+                    },
+                    {
+                        "key":"smallPoolsOfWaterVisible",
+                        "type":"binary",
+                        "title":{
+                            "en-US":"Can you see small pools of water?",
+                            "fr-CH":"Can you see small pools of water? (fr-CH)"
+                        },
+                        "branch":{
+                            "no":"largeBodyOfWaterVisible"
+                        }
+                    },
+                    {
+                        "key":"smallPoolsOfWaterNearShelters",
+                        "type":"binary",
+                        "title":{
+                            "en-US":"Are these small pools of water near human shelters or a settlement?",
+                            "fr-CH":"Are these small pools of water near human shelters or a settlement? (fr-CH)"
+                        },
+                        "branch":"name"
+                    },
+                    {
+                        "key":"largeBodyOfWaterVisible",
+                        "type":"binary",
+                        "title":{
+                            "en-US":"Can you see a large body of water?",
+                            "fr-CH":"Can you see a large body of water? (fr-CH)"
+                        }
+                    },
+                    {
+                        "key":"name",
+                        "type":"text",
+                        "title":{
+                            "en-US":"Please enter your name",
+                            "fr-CH":"Please enter your name (fr-CH)"
+                        },
+                        "parameters":{
+                            "placeholder":{
+                                "en-US":"A fake name will do",
+                                "fr-CH":"A fake name will do (fr-CH)"
                             }
                         }
-                    ]
-                }
+                    }
+                ]
             }
         }
+    };
     </script>
 </body>
