@@ -1,0 +1,41 @@
+#project-subject {
+}
+#project-subject-header {
+    background:#5F686C;
+    height:2.5em;
+}
+#project-subject-header > ul {
+    display:inline;
+}
+#project-subject-header > ul > li {
+    padding-right:0;
+}
+#project-subject-header .subject-control {
+    width:2.5em;
+    height:2.5em;
+    border:none;
+    background:#5F686C;
+    margin:0;
+    padding:0;
+    color:#CCC;
+    outline:none;
+    transition:color 0.2s ease-in-out;
+    -o-transition:color 0.2s ease-in-out;
+    -ms-transition:color 0.2s ease-in-out;
+    -moz-transition:color 0.2s ease-in-out;
+    -webkit-transition:color 0.2s ease-in-out;
+}
+#project-subject-header .subject-control:hover {
+    color:#FFF;
+}
+#project-subject-header .subject-control:not(#project-subject-source):not(#project-subject-help) {
+    display:none;
+}
+#project-subject-header .subject-control > i.fa {
+    font-size:1.9em;
+    margin:0;
+    padding:0.05em 0;
+}
+#project-subject[data-type="image"] .show-on-image {
+    display:inline !important;
+}

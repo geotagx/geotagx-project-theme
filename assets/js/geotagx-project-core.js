@@ -75,7 +75,12 @@
      * Initializes the project's subject.
      */
     function initializeSubject(){
-        //TODO Implement me.
+        //try {
+            geotagx.project.subject.initialize();
+        //} catch (e){
+            //TODO Implement me.
+            //throw e;
+        //}
     }
     /**
      * Initializes the project's user progress counters.
