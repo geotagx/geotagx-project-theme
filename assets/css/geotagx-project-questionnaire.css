@@ -114,6 +114,7 @@
     margin:0.5em 0 0;
 }
 #question {
+    margin:1em 0 0;
 }
 #questionnaire[data-finished="true"] #question {
     display:none;
