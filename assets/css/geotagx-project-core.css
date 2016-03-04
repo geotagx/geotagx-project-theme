@@ -2,7 +2,10 @@
     font:400 1em Roboto;
 }
 #project-header {
-    padding-bottom:0.15em;
+}
+#project-body {
+    margin-top:0.15em;
+    margin-bottom:1.6em;
 }
 #project-information {
 }
