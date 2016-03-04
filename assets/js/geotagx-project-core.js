@@ -22,128 +22,60 @@
  */
 ;(function(geotagx, $, undefined){
     "use strict";
-    /**
-     * The project's current locale.
-     */
-    var currentLocale_ = null;
-
 
     // Create the project object that all modules will be attached to.
     geotagx.project = geotagx.project || {};
-
     $(document).ready(function(){
-        if (geotagx.project.initialize())
-            onProjectInitialized();
-        else
-            onProjectError();
+        geotagx.project = Object.freeze(geotagx.project); // Prevent further modifications to the object.
+        geotagx.project.initialize();
     });
     /**
      * Initializes the project.
      */
     geotagx.project.initialize = function(){
-        initializeLocale();
-        setProjectName("Project Interface Mockup");
-        setProjectDescription("This is a short reminder of why your contribution matters.");
-        initializeUserProgress();
+        //try {
+            initializeLocale();
+            setName(__configuration__.project.name);
+            setDescription(__configuration__.project.description);
+            setRepository(__configuration__.project.repository.url, __configuration__.project.repository.type);
+            initializeUserProgress();
+            initializeQuestionnaire();
+            initializeSubject();
+            initializeEventHandlers();
 
-
-        var initialized = geotagx.project.questionnaire.initialize(configurations["task-presenter"]);
-        if (initialized)
-            onQuestionnaireInitialized();
-        else
-            onQuestionnaireError();
-/*
-        initialized = geotagx.project.subject.initialize();
-        if (initialized)
-            onQuestionnaireInitialized();
-        else
-            onQuestionnaireError();
-*/
-        return initialized;
+            geotagx.project.questionnaire.start();
+        //} catch (e){
+             // TODO Implement me.
+             //throw e;
+        //}
     };
-
-    function onProjectInitialized(){
-        geotagx.project.questionnaire.start();
-        //TODO Complete me.
-    }
-
-    function onProjectError(message){
-        //TODO Complete me.
-    }
-
-    function onQuestionnaireInitialized(){
-        var q = geotagx.project.questionnaire;
-        if (q){
-            q.on(q.EVENT_SUBMIT, onQuestionnaireSubmit);
-        }
-        //TODO Complete me.
-    }
-
-    function onQuestionnaireError(){
-        //TODO Complete me.
-    }
-
-    function onQuestionnaireSubmit(_, results, onSubmissionSuccess, onSubmissionError){
-        //TODO Complete me.
-        // Emulate a submission for debug purposes.
-        setTimeout(function(){
-            onSubmissionSuccess();
-            setTimeout(function(){
-                geotagx.project.questionnaire.start();
-            }, 1500);
-        }, 1000);
-    }
-    /**
-     * Sets the project's (full) name.
-     * @param name the project's name.
-     */
-    function setProjectName(name){
-        name = $.trim(name);
-        if (name.length > 0)
-            document.querySelector("#project-name > .value").innerHTML = name;
-    }
-    /**
-     * Sets the project's short description.
-     * @param description the project's description.
-     */
-    function setProjectDescription(description){
-        description = $.trim(description);
-        if (description.length > 0)
-            document.getElementById("project-description").innerHTML = description;
-    }
     /**
      * Initializes the project's locale.
      */
     function initializeLocale(){
-        var configuration = configurations["task-presenter"]["locale"];
-
-        // If there is more than one locale available, enable the locale selector.
-        var availableLocales = Object.keys(configuration.available);
-        if (availableLocales.length > 1){
-            document.getElementById("project-locale").style.display = "inline";
-
-            var selector = document.getElementById("project-locale-selector");
-            for (var i = 0; i < availableLocales.length; ++i){
-                var localeId = availableLocales[i];
-                var localeName = configuration.available[localeId];
-                var option = document.createElement("option");
-                option.text = localeName;
-                option.value = localeId;
-                selector.add(option);
-            }
-            $(selector).change(onLocaleChanged);
-        }
-        currentLocale_ = configuration["default"];
+        //try {
+            geotagx.project.locale.initialize();
+        //} catch (e){
+             // TODO Implement me.
+            //throw e;
+        //}
     }
     /**
-     * A handler that is called when a new locale is selected.
+     * Initializes the project's questionnaire.
      */
-    function onLocaleChanged(event){
-        currentLocale_ = event.currentTarget.value; // The current target is the <select> element.
-
-        geotagx.project.questionnaire.setLocale(currentLocale_);
-
-        // TODO Complete me.
+    function initializeQuestionnaire(){
+        //try {
+            geotagx.project.questionnaire.initialize();
+        //} catch (e){
+            //TODO Implement me.
+            //throw e;
+        //}
+    }
+    /**
+     * Initializes the project's subject.
+     */
+    function initializeSubject(){
+        //TODO Implement me.
     }
     /**
      * Initializes the project's user progress counters.
@@ -159,6 +91,42 @@
         }, 500);
     }
     /**
+     * Initializes the project's event handlers.
+     */
+    function initializeEventHandlers(){
+        geotagx.project.questionnaire.on(geotagx.project.questionnaire.EVENT_SUBMIT, onQuestionnaireSubmitted);
+        geotagx.project.locale.on(geotagx.project.locale.EVENT_LOCALE_CHANGED, onLocaleChanged);
+    }
+    /**
+     * Sets the project's (full) name.
+     * @param name the project's name.
+     */
+    function setName(name){
+        name = $.trim(name);
+        if (name.length > 0)
+            document.querySelector("#project-name > .value").innerHTML = name;
+    }
+    /**
+     * Sets the project's short description.
+     * @param description the project's description.
+     */
+    function setDescription(description){
+        var element = document.getElementById("project-description");
+        if (element){
+            description = $.trim(geotagx.project.locale.inCurrentLocale(description));
+            element.innerHTML = description;
+            element.style.display = description.length > 0 ? "block" : "none";
+        }
+    }
+    /**
+     * Sets the URL to the project's version control system repository.
+     * @param url a URL to the repository.
+     * @param type the type of version control system used by the project.
+     */
+    function setRepository(url, type){
+        //TODO Implement me.
+    }
+    /**
      * Sets the user's progress.
      * @param completed the current number of completed tasks.
      * @param total the total number of project tasks.
@@ -168,6 +136,23 @@
         if (total)
             document.querySelector("#project-analyses-completed > .count > .total").innerHTML = total;
     }
-
-
+    /**
+     * A handler that is called when the questionnaire is submitted.
+     */
+    function onQuestionnaireSubmitted(_, results, onSubmissionSuccess, onSubmissionError){
+        //TODO Complete me.
+        // Emulate a submission for debug purposes.
+        setTimeout(function(){
+            onSubmissionSuccess();
+            setTimeout(function(){
+                geotagx.project.questionnaire.start();
+            }, 1500);
+        }, 1000);
+    }
+    /**
+     * A handler that is called when a new locale is selected.
+     */
+    function onLocaleChanged(){
+        setDescription(__configuration__.project.description);
+    }
 })(window.geotagx = window.geotagx || {}, jQuery);

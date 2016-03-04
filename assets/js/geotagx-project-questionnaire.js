@@ -1,5 +1,5 @@
 /*
- * A script that adds multi-language support to GeoTag-X projects.
+ * A script that manages a GeoTag-X project's questionnaire.
  * Copyright (c) 2016, UNITAR-UNOSAT.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,8 +30,6 @@
     var answers_ = null;
     var initialQuestion_ = null;
     var progressStack_ = null;
-    var currentLocaleId_ = null;
-    var locales_ = null;
     var questionnaire_ = null;
     var questionnaireProgress_ = null;
     var $answerButtons_ = null;
@@ -50,19 +48,15 @@
     api_.EVENT_SUBMIT = "questionnaire-submit";
     api_.EVENT_QUESTION_CHANGED = "question-changed";
     api_.EVENT_QUESTION_ANSWERED = "question-answered";
-    api_.EVENT_LOCALE_CHANGED = "locale-changed";
     /**
      * Initializes the questionnaire from the specified configuration.
-     * @param configuration a project's task presenter configuration.
-     * @param onInitialized a function that is called when the questionnaire has been successfully initialized.
-     * @param onError a function that is called when the questionnaire failed to initialize correctly.
      */
-    api_.initialize = function(configuration){
+    api_.initialize = function(){
+        var configuration = __configuration__.taskPresenter;
+
         index_ = configuration.questionnaire.index;
         questions_ = configuration.questionnaire.questions;
         initialQuestion_ = questions_[0];
-        currentLocaleId_ = configuration.locale["default"];
-        locales_ = configuration.locale.available;
         questionnaire_ = document.getElementById("questionnaire");
         questionnaireProgress_ = document.getElementById("questionnaire-progress");
         $answerButtons_ = $("#question-answer-buttons > .btn");
@@ -90,9 +84,8 @@
         $(questionnaire_).on(api_.EVENT_QUESTION_ANSWERED, function(_, key, answer){ api_.showNextQuestion(answer); });
         $("#dropdown-list-field").change(function(){ document.getElementById("dropdown-list-field-reset").disabled = false; });
         $("#dropdown-list-field-reset").click(function(){ document.getElementById("dropdown-list-field").selectedIndex = 0; this.disabled = true; });
-        $(submitButton_).click(onSubmitAnswers);
-
-        return true;
+        $(submitButton_).click(onSubmit);
+        geotagx.project.locale.on(geotagx.project.locale.EVENT_LOCALE_CHANGED, onLocaleChanged);
     };
     /**
      * Starts the questionnaire from the question with the specified key.
@@ -271,38 +264,6 @@
             api_.finish();
     };
     /**
-     * Returns true if the questionnaire is available in the specified locale, false otherwise.
-     * @param localeId a locale identifier.
-     */
-    api_.isLocaleAvailable = function(localeId){
-        return localeId in locales_;
-    };
-    /**
-     * Returns the current locale's identifier.
-     */
-    api_.getLocaleIdentifier = function(){
-        return currentLocaleId_;
-    };
-    /**
-     * Returns the human-readable name of the locale with the specified identifier.
-     * @param localeId a locale identifier.
-     */
-    api_.getLocaleName = function(localeId){
-        return api_.isLocaleAvailable(localeId) ? locales_[localeId] : null;
-    };
-    /**
-     * Sets the questionnaire's locale.
-     * @param locale the locale identifier.
-     */
-    api_.setLocale = function(localeId){
-        if (api_.isLocaleAvailable(localeId)){
-            currentLocaleId_ = localeId;
-            updateQuestionContent(api_.getCurrentQuestion(), localeId);
-
-            trigger(api_.EVENT_LOCALE_CHANGED, currentLocaleId_);
-        }
-    };
-    /**
      * Attaches an event handler for one or more events to the questionnaire.
      */
     api_.on = function(events, handler){
@@ -366,7 +327,7 @@
             }
 
             // When all required HTML elements have been built, content is added to them.
-            updateQuestionContent(question, currentLocaleId_);
+            updateQuestionContent(question);
 
             trigger(api_.EVENT_QUESTION_CHANGED);
         }
@@ -442,15 +403,15 @@
      * Updates the textual content of the HTML node that contains the question.
      * Note that no HTML elements are added, removed or hidden; only modified.
      */
-    function updateQuestionContent(question, locale){
-        var title = question.title[locale];
+    function updateQuestionContent(question){
+        var title = geotagx.project.locale.inCurrentLocale(question.title);
         $("#question-title").html(title);
 
-        var hint = question.hint ? question.hint[locale] : null;
+        var hint = question.hint ? geotagx.project.locale.inCurrentLocale(question.hint) : null;
         if (hint !== null)
             document.getElementById("question-hint").innerHTML = hint;
 
-        var help = question.help ? question.help[locale] : null;
+        var help = question.help ? geotagx.project.locale.inCurrentLocale(question.help) : null;
         if (help !== null){
             document.getElementById("question-help-modal-title").innerHTML = title;
             document.getElementById("question-help-modal-content").innerHTML = help;
@@ -458,11 +419,11 @@
 
         switch (question.type){
             case "dropdown-list":
-                updateDropdownListField(question.key, question.parameters, currentLocaleId_);
+                updateDropdownListField(question.key, question.parameters);
                 return;
             case "select":
             case "checklist":
-                updateMultipleChoiceField(question.type, question.key, question.parameters, currentLocaleId_);
+                updateMultipleChoiceField(question.type, question.key, question.parameters);
                 return;
             default:
                 return;
@@ -472,9 +433,8 @@
      * Updates a dropdown list field.
      * @param key a question key.
      * @param parameters the input's parameters.
-     * @param locale a locale identifier.
      */
-    function updateDropdownListField(key, parameters, locale){
+    function updateDropdownListField(key, parameters){
         var prompt = "Please select an item"; // FIXME parameters.prompt
         var options = parameters.options;
         var nodes = document.getElementById("dropdown-list-field").children;
@@ -482,20 +442,19 @@
         // Note: the first node is reserved for the prompt.
         nodes[0].innerHTML = prompt;
         for (var i = 0; i < options.length; ++i)
-            nodes[i + 1].innerHTML = options[i].label[locale];
+            nodes[i + 1].innerHTML = geotagx.project.locale.inCurrentLocale(options[i].label);
     }
     /**
      * Updates a multiple choice field, i.e. select (multiple choice, single response) or checklist (multiple choice, multiple response).
      * @param type a question type.
      * @param key a question key.
      * @param parameters the input's parameters.
-     * @param locale a locale identifier.
      */
-    function updateMultipleChoiceField(type, key, parameters, locale){
+    function updateMultipleChoiceField(type, key, parameters){
         for (var i = 0; i < parameters.options.length; ++i){
             var option = parameters.options[i];
             var selector = '#' + type + '-field > section.custom-labels > label > input[value="' + option.value + '"] + span[role="label-name"]';
-            document.querySelector(selector).innerHTML = option.label[locale];
+            document.querySelector(selector).innerHTML = geotagx.project.locale.inCurrentLocale(option.label);
         }
     }
     /**
@@ -557,7 +516,7 @@
     /**
      *
      */
-    function onSubmitAnswers(event){
+    function onSubmit(event){
         // If there was an error submitting prior to this call, hide the error status icon and message.
         statusIcons_.error.style.display = "none";
 
@@ -598,6 +557,12 @@
                 submitButton_.disabled = false;
             });
         });
+    }
+    /**
+     * Updates the questionnaire content when the locale is changed.
+     */
+    function onLocaleChanged(){
+        updateQuestionContent(api_.getCurrentQuestion());
     }
     /**
      * Validates the specified answer.
