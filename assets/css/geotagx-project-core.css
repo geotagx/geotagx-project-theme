@@ -18,6 +18,7 @@
     font-family:Raleway;
 }
 #project-description {
+    display:none;
     font:400 1.2em Roboto;
 }
 #project-locale {
