@@ -77,7 +77,7 @@
 #questionnaire-status > .status-icon {
     display:none;
     font-size:2em;
-    line-height:1.3em;
+    line-height:1.35em;
 }
 #questionnaire-status-busy {
     color:#EEE;
