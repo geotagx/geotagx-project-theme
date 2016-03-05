@@ -3,6 +3,7 @@
 #project-subject-header {
     background:#5F686C;
     height:2.5em;
+    overflow:hidden;
 }
 #project-subject-header > ul {
     display:inline;
@@ -38,4 +39,12 @@
 }
 #project-subject[data-type="image"] .show-on-image {
     display:inline !important;
+}
+#project-subject-body {
+    margin:0;
+    padding:0;
+}
+#project-subject-body > img {
+    width:100%;
+    height:auto;
 }

@@ -157,6 +157,16 @@
     <script src="../assets/js/geotagx-project-locale.js" defer></script>
     <script src="../assets/js/geotagx-project-questionnaire.js" defer></script>
     <script src="../assets/js/geotagx-project-subject.js" defer></script>
+    <script src="../assets/js/geotagx-image.js" defer></script>
+    <script src="../assets/js/geotagx-pdf.js" defer></script>
+    <script>
+    $(document).ready(function(){
+        geotagx.project.on(geotagx.project.EVENT_READY, function(){
+            geotagx.project.subject.setUrl("http://i.imgur.com/yZrJpI3.jpg");
+            geotagx.project.subject.setSource("http://imgur.com/yZrJpI3");
+        });
+    });
+    </script>
     <script>
     "use strict";
     var __configuration__ = {

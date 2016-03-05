@@ -24,30 +24,144 @@
     "use strict";
 
     var __module__ = {};
+    /**
+     * The subject instance.
+     */
     var subject_ = null;
-    var buttons_ = null;
+    /**
+     * Event types.
+     */
+    __module__.EVENT_URL_CHANGE = "project-subject-url-change";
+    __module__.EVENT_SOURCE_CHANGE = "project-subject-source-change";
+    __module__.EVENT_IMAGE_ROTATE = "project-subject-image-rotate";
+    __module__.EVENT_IMAGE_ZOOM = "project-subject-image-zoom";
+    /**
+     * Subject types.
+     */
+    __module__.TYPE_IMAGE = "image";
+    __module__.TYPE_PDF = "pdf";
     /**
      * Initializes the subject module.
      */
     __module__.initialize = function(){
-        subject_ = document.getElementById("project-subject");
-        subject_.dataset.type = __module__.getType();
-        buttons_ = {
-            "zoomIn":document.getElementById("project-subject-zoom-in"),
-            "zoomOut":document.getElementById("project-subject-zoom-out"),
-            "rotateLeft":document.getElementById("project-subject-rotate-left"),
-            "rotateRight":document.getElementById("project-subject-rotate-right"),
-            "source":document.getElementById("project-subject-source"),
-            "help":document.getElementById("project-subject-help")
-        };
+        var type = $.trim(__configuration__.taskPresenter.subject.type);
+        var node = document.getElementById("project-subject");
+        if (node)
+            node.dataset.type = type;
+
+        // Instantiate the subject.
+        var Subject = geotagx.Image; // Image is used by default.
+        switch (type){
+            case __module__.TYPE_PDF:
+                Subject = geotagx.PDF;
+                break;
+            case __module__.TYPE_IMAGE:
+                /* falls through */
+            default:
+                // Remember the Image class has already been referenced.
+                break;
+        }
+        subject_ = new Subject("project-subject-body");
+
+        initializeEventHandlers();
+    };
+    /**
+     * Attaches an event handler for one or more events to the subject.
+     */
+    __module__.on = function(events, handler){
+        $("#project-subject").on(events, handler);
+    };
+    /**
+     * Removes an event handler.
+     */
+    __module__.off = function(events, handler){
+        $("#project-subject").off(events, handler);
+    };
+    /**
+     * Executes all handlers attached to the event.
+     */
+    __module__.trigger = function(type, parameters){
+        $("#project-subject").trigger(type, parameters);
     };
     /**
      * Returns the subject's type.
      */
     __module__.getType = function(){
-        //TODO Return 'image' if no subject type is found.
-        return __configuration__.taskPresenter.subject.type;
+        if (subject_ instanceof geotagx.Image)
+            return __module__.TYPE_IMAGE;
+        else if (subject_ instanceof geotagx.PDF)
+            return __module__.TYPE_PDF;
+        else
+            return null;
     };
+    /**
+     * Sets the subject's type.
+     * @param type a string denoting a subject type.
+     */
+    //__module__.setType = function(type){
+        //TODO Complete me.
+    //};
+    /**
+     * Returns the URL to the subject.
+     */
+    __module__.getUrl = function(){
+        return subject_.getSource();
+    };
+    /**
+     * Sets the URL to the subject.
+     * @param url a URL to the subject.
+     */
+    __module__.setUrl = function(url){
+        url = $.trim(url);
+        if (url.length > 0 && subject_ && subject_.setSource && typeof(subject_.setSource) === "function"){
+            subject_.setSource(url);
+            __module__.trigger(__module__.EVENT_URL_CHANGE, url);
+        }
+    };
+    /**
+     * Returns the URL to the subject's source.
+     */
+    __module__.getSource = function(){
+        return document.getElementById("project-subject-source").href;
+    };
+    /**
+     * Sets the URL to the subject's source.
+     * @param url a URL to the subject's source.
+     */
+    __module__.setSource = function(url){
+        url = $.trim(url);
+        if (url.length > 0){
+            document.getElementById("project-subject-source").href = url;
+            __module__.trigger(__module__.EVENT_SOURCE_CHANGE, url);
+        }
+    };
+    /**
+     * Initializes the subject's event handlers.
+     */
+    function initializeEventHandlers(){
+        if (subject_ instanceof geotagx.Image){
+            $("#project-subject-zoom-in").click(function(){
+                subject_.zoomIn();
+                __module__.trigger(__module__.EVENT_IMAGE_ZOOM, 1);
+            });
+            $("#project-subject-zoom-out").click(function(){
+                subject_.zoomOut();
+                __module__.trigger(__module__.EVENT_IMAGE_ZOOM, -1);
+            });
+            $("#project-subject-zoom-reset").click(function(){
+                subject_.zoomReset();
+                __module__.trigger(__module__.EVENT_IMAGE_ZOOM, 0);
+            });
+            $("#project-subject-rotate-left").click(function(){
+                subject_.rotateLeft();
+                __module__.trigger(__module__.EVENT_IMAGE_ROTATE, subject_.image.rotation);
+            });
+            $("#project-subject-rotate-right").click(function(){
+                subject_.rotateRight();
+                __module__.trigger(__module__.EVENT_IMAGE_ROTATE, subject_.image.rotation);
+            });
+        }
+    }
 
     // Expose the frozen (immutable) module.
     project.subject = Object.freeze(__module__);
