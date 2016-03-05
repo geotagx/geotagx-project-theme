@@ -79,8 +79,15 @@
     font-size:2em;
     line-height:1.35em;
 }
+@keyframes flash {
+    from, 50%, to { opacity:1; }
+    25%, 75% { opacity:0; }
+}
 #questionnaire-status-busy {
     color:#EEE;
+    animation-name:flash;
+    animation-duration:1s;
+    animation-iteration-count:infinite;
 }
 #questionnaire-status-success {
     color:#0B0;
