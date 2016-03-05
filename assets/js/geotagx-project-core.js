@@ -22,11 +22,20 @@
  */
 ;(function(geotagx, $, undefined){
     "use strict";
-
-    // Create the project object that all modules will be attached to.
+    /**
+     * The core object where all modules will be attached.
+     */
     geotagx.project = geotagx.project || {};
+    /**
+     * Events.
+     */
+    geotagx.project.EVENT_READY = "project-ready";
+    /**
+     *
+     */
     $(document).ready(function(){
         geotagx.project = Object.freeze(geotagx.project); // Prevent further modifications to the object.
+        geotagx.project.on(geotagx.project.EVENT_READY, geotagx.project.questionnaire.start);
         geotagx.project.initialize();
     });
     /**
@@ -43,11 +52,29 @@
             initializeSubject();
             initializeEventHandlers();
 
-            geotagx.project.questionnaire.start();
+            geotagx.project.trigger(geotagx.project.EVENT_READY);
         //} catch (e){
              // TODO Implement me.
              //throw e;
         //}
+    };
+    /**
+     * Attaches an event handler for one or more events to the project.
+     */
+    geotagx.project.on = function(events, handler){
+        $("#project").on(events, handler);
+    };
+    /**
+     * Removes an event handler.
+     */
+    geotagx.project.off = function(events, handler){
+        $("#project").off(events, handler);
+    };
+    /**
+     * Executes all handlers attached to the event.
+     */
+    geotagx.project.trigger = function(type, parameters){
+        $("#project").trigger(type, parameters);
     };
     /**
      * Initializes the project's locale.
