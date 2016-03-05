@@ -228,7 +228,7 @@
             attributes.bgh = attributes.h;
         }
         else
-            $(image).trigger("zoom", delta < 0 ? -1 : 1);
+            $(context.image).trigger("zoom", delta < 0 ? -1 : 1);
 
         updateImage(context.image, attributes);
     }
