@@ -149,6 +149,9 @@
 			deferred.resolve();
 		}
 
+		var $submitButton = $("#submit-analysis");
+		var $busyIcon = $("#questionnaire-busy-icon");
+
 		// Append image information to the questionnaire results.
 		var taskRun = geotagx.questionnaire.getAnswers();
 		if (window.geotagx_project_template_mode == "image"){
@@ -161,9 +164,6 @@
 				pybossa.saveTask(task.id, taskRun).done(onResolve).fail(onResolve);
 			}
 			else if (task.photoAccessible === true){
-				var $submitButton = $("#submit-analysis");
-				var $busyIcon = $("#questionnaire-busy-icon");
-
 				pybossa.saveTask(task.id, taskRun)
 				.done(function(){
 					$busyIcon.fadeOut(300, function(){ $(this).addClass("hide"); });
@@ -202,8 +202,6 @@
 
 		} else if(window.geotagx_project_template_mode == "pdf"){
 			taskRun.pdf = task.info.image_url;
-			var $submitButton = $("#submit-analysis");
-			var $busyIcon = $("#questionnaire-busy-icon");
 
 			console.log("Saving Task....");
 
