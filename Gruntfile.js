@@ -18,6 +18,21 @@ module.exports = function(grunt){
             // step (that follows concatenation), without providing any benefits.
             uncompressed:{
                 files:{
+                    // Concatenate the core CSS files.
+                    "<%= dir.bundles %>/asset.bundle.core.min.css":[
+                        "<%= dir.css %>/geotagx-project-core.css",
+                        "<%= dir.css %>/geotagx-project-questionnaire.css",
+                        "<%= dir.css %>/geotagx-project-subject.css"
+                    ],
+                    // Concatenate the core JS files. Note that 'geotagx-project-core.js' must always come first.
+                    "<%= dir.bundles %>/asset.bundle.core.min.js":[
+                        "<%= dir.js %>/geotagx-project-core.js",
+                        "<%= dir.js %>/geotagx-project-locale.js",
+                        "<%= dir.js %>/geotagx-project-questionnaire.js",
+                        "<%= dir.js %>/geotagx-project-subject.js",
+                        "<%= dir.js %>/geotagx-image.js",
+                        "<%= dir.js %>/geotagx-pdf.js"
+                    ],
                     "<%= dir.bundles %>/asset.bundle.core.css":[
                         "<%= dir.css %>/geotagx-questionnaire-image.css",
                         "<%= dir.css %>/geotagx-questionnaire-status-panel.css",
